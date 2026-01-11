@@ -1,0 +1,70 @@
+site_name: Traffic2OpenAPI
+site_description: Generate OpenAPI specifications from HTTP traffic logs
+site_url: https://grokify.github.io/traffic2openapi/
+repo_url: https://github.com/grokify/traffic2openapi
+repo_name: grokify/traffic2openapi
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details
+  - tables
+  - toc:
+      permalink: true
+
+docs_dir: docsrc
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quickstart.md
+  - Concepts:
+      - Architecture: concepts/architecture.md
+      - Intermediate Representation: concepts/ir-format.md
+  - Go Packages:
+      - Overview: go-packages/overview.md
+      - Provider Pattern: go-packages/providers.md
+      - LoggingTransport: go-packages/logging-transport.md
+      - Inference Engine: go-packages/inference.md
+      - OpenAPI Generator: go-packages/openapi.md
+  - Adapters:
+      - Overview: adapters/overview.md
+      - HAR Files: adapters/har.md
+      - Browser & Testing: adapters/browser.md
+  - CLI Reference:
+      - Commands: cli/commands.md
+  - API Reference:
+      - pkg/ir: api/ir.md
