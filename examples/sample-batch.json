@@ -1,0 +1,107 @@
+{
+  "version": "ir.v1",
+  "metadata": {
+    "generatedAt": "2024-12-30T10:00:00Z",
+    "source": "manual",
+    "recordCount": 4
+  },
+  "records": [
+    {
+      "id": "req-001",
+      "timestamp": "2024-12-30T09:00:00Z",
+      "source": "manual",
+      "request": {
+        "method": "GET",
+        "host": "api.example.com",
+        "path": "/users",
+        "query": {
+          "limit": "10",
+          "offset": "0"
+        }
+      },
+      "response": {
+        "status": 200,
+        "contentType": "application/json",
+        "body": {
+          "users": [
+            {"id": "123", "name": "Alice"},
+            {"id": "456", "name": "Bob"}
+          ],
+          "total": 2
+        }
+      },
+      "durationMs": 45
+    },
+    {
+      "id": "req-002",
+      "timestamp": "2024-12-30T09:01:00Z",
+      "source": "manual",
+      "request": {
+        "method": "GET",
+        "host": "api.example.com",
+        "path": "/users/123",
+        "pathTemplate": "/users/{id}",
+        "pathParams": {
+          "id": "123"
+        }
+      },
+      "response": {
+        "status": 200,
+        "contentType": "application/json",
+        "body": {
+          "id": "123",
+          "name": "Alice",
+          "email": "alice@example.com"
+        }
+      },
+      "durationMs": 32
+    },
+    {
+      "id": "req-003",
+      "timestamp": "2024-12-30T09:02:00Z",
+      "source": "manual",
+      "request": {
+        "method": "POST",
+        "host": "api.example.com",
+        "path": "/users",
+        "contentType": "application/json",
+        "headers": {
+          "authorization": "Bearer token123"
+        },
+        "body": {
+          "name": "Charlie",
+          "email": "charlie@example.com"
+        }
+      },
+      "response": {
+        "status": 201,
+        "contentType": "application/json",
+        "body": {
+          "id": "789",
+          "name": "Charlie",
+          "email": "charlie@example.com"
+        }
+      },
+      "durationMs": 120
+    },
+    {
+      "id": "req-004",
+      "timestamp": "2024-12-30T09:03:00Z",
+      "source": "manual",
+      "request": {
+        "method": "DELETE",
+        "host": "api.example.com",
+        "path": "/users/456",
+        "pathTemplate": "/users/{id}",
+        "pathParams": {
+          "id": "456"
+        }
+      },
+      "response": {
+        "status": 204,
+        "body": null
+      },
+      "durationMs": 28
+    }
+  ]
+}

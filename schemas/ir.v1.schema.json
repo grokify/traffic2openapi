@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/grokify/traffic2openapi/schemas/ir.v1.schema.json",
+  "title": "Traffic2OpenAPI IR v1",
+  "description": "Intermediate representation for HTTP traffic used to generate OpenAPI 3.1 specifications. Supports both single records (NDJSON) and batched arrays.",
+
+  "$defs": {
+    "IRRecord": {
+      "type": "object",
+      "description": "A single HTTP request/response capture.",
+      "required": ["request", "response"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for this record (e.g., UUID)."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of the request capture."
+        },
+        "source": {
+          "type": "string",
+          "enum": ["har", "playwright", "logging-transport", "proxy", "manual"],
+          "description": "Adapter/source that generated this record."
+        },
+        "request": {
+          "$ref": "#/$defs/Request"
+        },
+        "response": {
+          "$ref": "#/$defs/Response"
+        },
+        "durationMs": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Round-trip time in milliseconds."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Request": {
+      "type": "object",
+      "description": "HTTP request details.",
+      "required": ["method", "path"],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS", "TRACE"],
+          "description": "HTTP method."
+        },
+        "scheme": {
+          "type": "string",
+          "enum": ["http", "https"],
+          "default": "https",
+          "description": "URL scheme."
+        },
+        "host": {
+          "type": "string",
+          "description": "Request host (e.g., api.example.com)."
+        },
+        "path": {
+          "type": "string",
+          "description": "Raw request path without query string (e.g., /users/123)."
+        },
+        "pathTemplate": {
+          "type": "string",
+          "description": "Normalized path template with parameters (e.g., /users/{id}). Optional - can be inferred."
+        },
+        "pathParams": {
+          "type": "object",
+          "description": "Extracted path parameter values.",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "query": {
+          "type": "object",
+          "description": "Query parameters as key/value pairs.",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "number" },
+              { "type": "boolean" },
+              { "type": "array", "items": { "type": "string" } }
+            ]
+          }
+        },
+        "headers": {
+          "type": "object",
+          "description": "Request headers (keys should be lowercase).",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "contentType": {
+          "type": "string",
+          "description": "Content-Type header value (e.g., application/json)."
+        },
+        "body": {
+          "description": "Parsed request body. Object/array for JSON, string for other content types, null for no body.",
+          "oneOf": [
+            { "type": "object" },
+            { "type": "array" },
+            { "type": "string" },
+            { "type": "null" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Response": {
+      "type": "object",
+      "description": "HTTP response details.",
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 599,
+          "description": "HTTP status code."
+        },
+        "headers": {
+          "type": "object",
+          "description": "Response headers (keys should be lowercase).",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "contentType": {
+          "type": "string",
+          "description": "Content-Type header value."
+        },
+        "body": {
+          "description": "Parsed response body. Object/array for JSON, string for other content types, null for no body.",
+          "oneOf": [
+            { "type": "object" },
+            { "type": "array" },
+            { "type": "string" },
+            { "type": "null" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+
+  "oneOf": [
+    {
+      "description": "Single IR record (for NDJSON streaming).",
+      "$ref": "#/$defs/IRRecord"
+    },
+    {
+      "description": "Batch of IR records (for JSON array files).",
+      "type": "object",
+      "required": ["version", "records"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "const": "ir.v1",
+          "description": "IR schema version."
+        },
+        "records": {
+          "type": "array",
+          "description": "List of captured HTTP request/response records.",
+          "items": {
+            "$ref": "#/$defs/IRRecord"
+          },
+          "minItems": 1
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Optional batch-level metadata.",
+          "properties": {
+            "generatedAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "When this batch was generated."
+            },
+            "source": {
+              "type": "string",
+              "description": "Source system or adapter name."
+            },
+            "recordCount": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of records in this batch."
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    }
+  ]
+}
