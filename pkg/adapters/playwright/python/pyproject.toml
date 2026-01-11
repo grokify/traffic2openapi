@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "traffic2openapi-playwright"
+version = "0.1.0"
+description = "Playwright adapter for traffic2openapi - capture HTTP traffic for OpenAPI generation"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "John Wang", email = "johncwang@gmail.com"}
+]
+keywords = ["playwright", "openapi", "traffic", "capture", "testing"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Internet :: WWW/HTTP",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "playwright>=1.40.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-playwright>=0.4.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/grokify/traffic2openapi"
+Documentation = "https://grokify.github.io/traffic2openapi/"
+Repository = "https://github.com/grokify/traffic2openapi"
+Issues = "https://github.com/grokify/traffic2openapi/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

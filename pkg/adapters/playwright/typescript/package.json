@@ -1,0 +1,52 @@
+{
+  "name": "traffic2openapi-playwright",
+  "version": "0.1.0",
+  "description": "Playwright adapter for traffic2openapi - capture HTTP traffic for OpenAPI generation",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": [
+    "playwright",
+    "openapi",
+    "traffic",
+    "capture",
+    "testing",
+    "api"
+  ],
+  "author": "John Wang <johncwang@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grokify/traffic2openapi.git",
+    "directory": "pkg/adapters/playwright/typescript"
+  },
+  "homepage": "https://grokify.github.io/traffic2openapi/",
+  "bugs": {
+    "url": "https://github.com/grokify/traffic2openapi/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "playwright": ">=1.40.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@playwright/test": "^1.40.0",
+    "playwright": "^1.40.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ]
+}
