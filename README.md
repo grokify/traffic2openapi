@@ -55,7 +55,7 @@ traffic2openapi validate ./logs/
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│                              TRAFFIC SOURCES                                  │
+│                              TRAFFIC SOURCES                                 │
 ├──────────────────┬──────────────────┬──────────────────┬─────────────────────┤
 │ Browser DevTools │ Test Automation  │ Go http.Client   │ Proxy Captures      │
 │ (HAR export)     │ Playwright, etc  │ LoggingTransport │ mitmproxy, Charles  │
@@ -63,20 +63,20 @@ traffic2openapi validate ./logs/
          │                  │                  │                     │
          ▼                  ▼                  ▼                     ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│                       ADAPTER LAYER (source-specific)                         │
-│                  HAR Converter | Playwright Adapter | IR Writer               │
+│                       ADAPTER LAYER (source-specific)                        │
+│                  HAR Converter | Playwright Adapter | IR Writer              │
 └─────────────────────────────────────┬────────────────────────────────────────┘
                                       │
                                       ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│                    IR (Intermediate Representation)                           │
-│                       JSON Schema v1 contract                                 │
+│                    IR (Intermediate Representation)                          │
+│                       JSON Schema v1 contract                                │
 └─────────────────────────────────────┬────────────────────────────────────────┘
                                       │
                                       ▼
 ┌──────────────────────────────────────────────────────────────────────────────┐
-│                           GO CORE ENGINE                                      │
-│    IR Reader → Endpoint Clustering → Schema Inference → OpenAPI Generator     │
+│                           GO CORE ENGINE                                     │
+│    IR Reader → Endpoint Clustering → Schema Inference → OpenAPI Generator    │
 └─────────────────────────────────────┬────────────────────────────────────────┘
                                       │
                                       ▼
