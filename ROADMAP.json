@@ -1,0 +1,938 @@
+{
+  "ir_version": "1.0",
+  "project": "traffic2openapi",
+  "repository": "https://github.com/grokify/traffic2openapi",
+  "legend": {
+    "completed": { "emoji": "✅", "description": "Completed" },
+    "in_progress": { "emoji": "🚧", "description": "In Progress" },
+    "planned": { "emoji": "📋", "description": "Planned" },
+    "future": { "emoji": "💡", "description": "Under Consideration" }
+  },
+  "areas": [
+    { "id": "ir", "name": "IR & Transport", "priority": 1 },
+    { "id": "cli", "name": "CLI Commands", "priority": 2 },
+    { "id": "inference", "name": "Inference Engine", "priority": 3 },
+    { "id": "adapters", "name": "Adapters", "priority": 4 },
+    { "id": "cicd", "name": "CI/CD Integration", "priority": 5 },
+    { "id": "export", "name": "Export Formats", "priority": 6 },
+    { "id": "validation", "name": "Validation & Linting", "priority": 7 },
+    { "id": "docs", "name": "Documentation", "priority": 8 }
+  ],
+  "phases": [
+    { "id": "v0.1.0", "name": "v0.1.0 - Initial Release", "status": "completed", "order": 1 },
+    { "id": "v0.2.0", "name": "v0.2.0 - IR Enhancements", "status": "planned", "order": 2 },
+    { "id": "v0.3.0", "name": "v0.3.0 - Additional Adapters", "status": "planned", "order": 3 },
+    { "id": "v0.4.0", "name": "v0.4.0 - CI/CD Integration", "status": "planned", "order": 4 },
+    { "id": "v0.5.0", "name": "v0.5.0 - Export Formats", "status": "planned", "order": 5 },
+    { "id": "v0.6.0", "name": "v0.6.0 - Validation & Linting", "status": "planned", "order": 6 },
+    { "id": "future", "name": "Future Considerations", "status": "future", "order": 7 }
+  ],
+  "items": [
+    {
+      "id": "ir-writer-interface",
+      "title": "`IRWriter` interface for pluggable output destinations",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "ndjson-writer",
+      "title": "`NDJSONWriter` - Sync file writer",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "async-ndjson-writer",
+      "title": "`AsyncNDJSONWriter` - Async file writer with error callback",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "logging-transport",
+      "title": "`LoggingTransport` - http.RoundTripper implementation",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "header-filtering",
+      "title": "Header filtering (exclude sensitive headers)",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "body-capture",
+      "title": "Body capture with size limits",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "flush-method",
+      "title": "`Flush()` method for explicit buffer flushing",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "channel-writer",
+      "title": "`ChannelWriter` - Write to `chan *IRRecord` for in-memory processing",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "multi-writer",
+      "title": "`MultiWriter` - Fan out to multiple IRWriter destinations",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "gzip-ndjson-writer",
+      "title": "`GzipNDJSONWriter` - Compressed writer for gzip NDJSON output",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "path-filtering",
+      "title": "Path filtering - Skip logging for specific paths",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "method-filtering",
+      "title": "Method filtering - Log only specific HTTP methods",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "host-filtering",
+      "title": "Host filtering - Log only requests to specific hosts",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "status-code-filtering",
+      "title": "Status code filtering - Skip logging for specific status codes",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "sampling",
+      "title": "Sampling - Log only X% of requests for high-traffic scenarios",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "request-id-extraction",
+      "title": "Request ID extraction from headers",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "ir-reader-interface",
+      "title": "`IRReader` interface for pluggable input sources",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "ndjson-reader",
+      "title": "`NDJSONReader` - Streaming NDJSON file reader",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "gzip-ndjson-reader",
+      "title": "`GzipNDJSONReader` - Streaming gzip-compressed NDJSON reader",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "channel-reader",
+      "title": "`ChannelReader` - Read from `chan *IRRecord`",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "slice-reader",
+      "title": "`SliceReader` - Read from existing `[]IRRecord` slice",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "engine-process-reader",
+      "title": "`Engine.ProcessReader()` - Inference engine accepts `IRReader` for streaming",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "ir",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "context-propagation",
+      "title": "Context propagation for cancellation/timeouts",
+      "description": "Pass context through transport for cancellation/timeouts",
+      "status": "planned",
+      "area": "ir",
+      "phase": "v0.2.0",
+      "type": "Added"
+    },
+    {
+      "id": "convenience-helpers",
+      "title": "Convenience option helpers",
+      "description": "Add `WithSkipPaths()`, `WithSampleRate()`, `WithAllowMethods()`, etc. for easier `LoggingTransport` configuration",
+      "status": "planned",
+      "area": "ir",
+      "phase": "v0.2.0",
+      "type": "Added"
+    },
+    {
+      "id": "filter-writer",
+      "title": "`FilterWriter` - Wrapper that filters records before writing",
+      "status": "planned",
+      "area": "ir",
+      "phase": "v0.2.0",
+      "type": "Added"
+    },
+    {
+      "id": "batching-writer",
+      "title": "`BatchingWriter` - Accumulate records before writing",
+      "status": "planned",
+      "area": "ir",
+      "phase": "v0.2.0",
+      "type": "Added"
+    },
+    {
+      "id": "metrics-collection",
+      "title": "Metrics collection",
+      "description": "Track records written, errors, bytes written, etc.",
+      "status": "planned",
+      "area": "ir",
+      "phase": "v0.2.0",
+      "type": "Added"
+    },
+    {
+      "id": "stats-interface",
+      "title": "Stats interface for pluggable metrics backends",
+      "description": "Allow pluggable metrics backends (prometheus, statsd, etc.)",
+      "status": "planned",
+      "area": "ir",
+      "phase": "v0.2.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-merge-ir",
+      "title": "Merge IR files",
+      "description": "Combine multiple NDJSON/JSON traffic files",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-merge-openapi",
+      "title": "Merge OpenAPI specs",
+      "description": "Combine multiple OpenAPI specifications",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-merge-dedupe",
+      "title": "Deduplication for merge",
+      "description": "Remove duplicate records by ID",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-diff-compare",
+      "title": "Compare OpenAPI specs",
+      "description": "Show differences between two OpenAPI specs",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-diff-breaking",
+      "title": "Breaking change detection",
+      "description": "Detect breaking API changes",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-diff-json",
+      "title": "JSON output for diff",
+      "description": "Machine-readable diff output for CI/CD",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-diff-exit-code",
+      "title": "Exit code for breaking changes",
+      "description": "Non-zero exit on breaking changes for CI",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-serve-swagger",
+      "title": "Serve with Swagger UI",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-serve-redoc",
+      "title": "Serve with Redoc",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-serve-watch",
+      "title": "Auto-reload on file changes",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-watch-mode",
+      "title": "Watch mode for generate command",
+      "description": "Regenerate on file changes",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-watch-debounce",
+      "title": "Configurable debounce interval",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-site-html",
+      "title": "Static HTML site generation",
+      "description": "Generate HTML documentation from IR files",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-site-index",
+      "title": "Index page with method badges",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-site-endpoints",
+      "title": "Endpoint pages grouped by status code",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-site-deduped",
+      "title": "Deduped view showing all parameter values",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "cli-site-theme",
+      "title": "Light/dark mode toggle",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "cli",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "inference-bearer",
+      "title": "Bearer token detection",
+      "description": "Detect `Authorization: Bearer` headers",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "inference",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "inference-api-key",
+      "title": "API key detection",
+      "description": "Detect `X-API-Key` and similar headers",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "inference",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "inference-basic-auth",
+      "title": "Basic auth detection",
+      "description": "Detect `Authorization: Basic` headers",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "inference",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "inference-security-schemes",
+      "title": "Generate OpenAPI securitySchemes",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "inference",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "inference-pagination-offset",
+      "title": "Offset-based pagination detection",
+      "description": "Detect `page`, `limit`, `offset`, `per_page`",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "inference",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "inference-pagination-cursor",
+      "title": "Cursor-based pagination detection",
+      "description": "Detect `cursor`, `after`, `before`",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "inference",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "inference-pagination-link",
+      "title": "Link header pagination",
+      "description": "Parse `Link: <url>; rel=\"next\"`",
+      "status": "planned",
+      "area": "inference",
+      "phase": "v0.2.0",
+      "type": "Added"
+    },
+    {
+      "id": "inference-pagination-docs",
+      "title": "Pagination parameter documentation",
+      "description": "Add descriptions, defaults, constraints",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "inference",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "inference-ratelimit-standard",
+      "title": "Standard rate limit headers",
+      "description": "`X-RateLimit-Limit`, `X-RateLimit-Remaining`",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "inference",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "inference-ratelimit-reset",
+      "title": "Rate limit reset headers",
+      "description": "`X-RateLimit-Reset`, `Retry-After`",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "inference",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "inference-ratelimit-docs",
+      "title": "Rate limit header documentation",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "inference",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "inference-path-context",
+      "title": "Context-aware path parameter naming",
+      "description": "`/users/{userId}` instead of `/users/{id}`",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "inference",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "inference-path-nested",
+      "title": "Nested resource path parameters",
+      "description": "`/users/{userId}/posts/{postId}`",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "inference",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "inference-path-patterns",
+      "title": "Path pattern detection",
+      "description": "Detect dates, filenames, slugs",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "inference",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "adapter-playwright-python",
+      "title": "Playwright adapter for Python",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "adapters",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "adapter-playwright-typescript",
+      "title": "Playwright adapter for TypeScript",
+      "status": "completed",
+      "version": "v0.1.0",
+      "area": "adapters",
+      "phase": "v0.1.0",
+      "type": "Added"
+    },
+    {
+      "id": "adapter-playwright-java",
+      "title": "Playwright adapter for Java",
+      "description": "Maven Central package",
+      "status": "planned",
+      "area": "adapters",
+      "phase": "v0.3.0",
+      "type": "Added"
+    },
+    {
+      "id": "adapter-playwright-dotnet",
+      "title": "Playwright adapter for .NET (C#)",
+      "description": "NuGet package",
+      "status": "planned",
+      "area": "adapters",
+      "phase": "v0.3.0",
+      "type": "Added"
+    },
+    {
+      "id": "adapter-puppeteer",
+      "title": "Puppeteer adapter",
+      "description": "Official npm package for Puppeteer",
+      "status": "future",
+      "area": "adapters",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "adapter-selenium",
+      "title": "Selenium adapter",
+      "description": "WebDriver-based capture",
+      "status": "future",
+      "area": "adapters",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "adapter-mitmproxy",
+      "title": "mitmproxy adapter",
+      "description": "Proxy-based capture",
+      "status": "future",
+      "area": "adapters",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "adapter-postman-import",
+      "title": "Postman collection import",
+      "description": "Convert Postman collections to IR",
+      "status": "future",
+      "area": "adapters",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "adapter-charles",
+      "title": "Charles Proxy import",
+      "description": "Import Charles session files",
+      "status": "future",
+      "area": "adapters",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "cicd-github-action",
+      "title": "GitHub Action",
+      "description": "`grokify/traffic2openapi-action`",
+      "status": "planned",
+      "area": "cicd",
+      "phase": "v0.4.0",
+      "type": "Added"
+    },
+    {
+      "id": "cicd-github-inputs",
+      "title": "GitHub Action inputs",
+      "description": "input, output, version, title, servers",
+      "status": "planned",
+      "area": "cicd",
+      "phase": "v0.4.0",
+      "type": "Added",
+      "depends_on": ["cicd-github-action"]
+    },
+    {
+      "id": "cicd-github-outputs",
+      "title": "GitHub Action outputs",
+      "description": "spec-path, endpoint-count",
+      "status": "planned",
+      "area": "cicd",
+      "phase": "v0.4.0",
+      "type": "Added",
+      "depends_on": ["cicd-github-action"]
+    },
+    {
+      "id": "cicd-precommit",
+      "title": "Pre-commit hook",
+      "description": "traffic2openapi-lint hook for pre-commit",
+      "status": "planned",
+      "area": "cicd",
+      "phase": "v0.4.0",
+      "type": "Added"
+    },
+    {
+      "id": "export-postman",
+      "title": "Export to Postman Collection",
+      "description": "Export to Postman v2.1 format",
+      "status": "planned",
+      "area": "export",
+      "phase": "v0.5.0",
+      "type": "Added"
+    },
+    {
+      "id": "export-insomnia",
+      "title": "Export to Insomnia",
+      "description": "Export to Insomnia v4 format",
+      "status": "planned",
+      "area": "export",
+      "phase": "v0.5.0",
+      "type": "Added"
+    },
+    {
+      "id": "export-bruno",
+      "title": "Export to Bruno",
+      "description": "Export to Bruno collection format",
+      "status": "planned",
+      "area": "export",
+      "phase": "v0.5.0",
+      "type": "Added"
+    },
+    {
+      "id": "export-httpie",
+      "title": "Export to HTTPie",
+      "description": "Export to HTTPie session format",
+      "status": "planned",
+      "area": "export",
+      "phase": "v0.5.0",
+      "type": "Added"
+    },
+    {
+      "id": "validation-openapi",
+      "title": "OpenAPI validation",
+      "description": "Validate against OpenAPI spec",
+      "status": "planned",
+      "area": "validation",
+      "phase": "v0.6.0",
+      "type": "Added"
+    },
+    {
+      "id": "validation-linting",
+      "title": "Linting rules",
+      "description": "Check for common issues",
+      "status": "planned",
+      "area": "validation",
+      "phase": "v0.6.0",
+      "type": "Added"
+    },
+    {
+      "id": "validation-custom-rules",
+      "title": "Custom rulesets",
+      "description": "User-defined validation rules",
+      "status": "planned",
+      "area": "validation",
+      "phase": "v0.6.0",
+      "type": "Added"
+    },
+    {
+      "id": "writer-s3",
+      "title": "S3Writer",
+      "description": "Write directly to S3",
+      "status": "future",
+      "area": "ir",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "writer-kafka",
+      "title": "KafkaWriter",
+      "description": "Write to Kafka topics",
+      "status": "future",
+      "area": "ir",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "writer-http",
+      "title": "HTTPWriter",
+      "description": "POST records to a webhook endpoint",
+      "status": "future",
+      "area": "ir",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "writer-sql",
+      "title": "SQLWriter",
+      "description": "Write records to SQL databases",
+      "status": "future",
+      "area": "ir",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "feature-example-gen",
+      "title": "Example generation",
+      "description": "Auto-generate realistic examples from traffic",
+      "status": "future",
+      "area": "inference",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "feature-sdk-gen",
+      "title": "SDK generation",
+      "description": "Integration with OpenAPI Generator",
+      "status": "future",
+      "area": "export",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "feature-graphql",
+      "title": "GraphQL inference",
+      "description": "Infer GraphQL schema from traffic",
+      "status": "future",
+      "area": "inference",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "feature-asyncapi",
+      "title": "AsyncAPI support",
+      "description": "WebSocket/event-driven API specs",
+      "status": "future",
+      "area": "export",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "feature-vscode",
+      "title": "VS Code extension",
+      "description": "IDE integration",
+      "status": "future",
+      "area": "adapters",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "feature-transform",
+      "title": "Record transformation",
+      "description": "Modify/enrich records before writing",
+      "status": "future",
+      "area": "ir",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "feature-replay",
+      "title": "Replay support",
+      "description": "Read IR records and replay requests",
+      "status": "future",
+      "area": "ir",
+      "phase": "future",
+      "type": "Added"
+    },
+    {
+      "id": "docs-video-tutorials",
+      "title": "Video tutorials",
+      "status": "planned",
+      "area": "docs",
+      "phase": "v0.2.0",
+      "type": "Documentation"
+    },
+    {
+      "id": "docs-migration-guide",
+      "title": "Migration guide from other tools",
+      "status": "planned",
+      "area": "docs",
+      "phase": "v0.2.0",
+      "type": "Documentation"
+    }
+  ],
+  "sections": [
+    {
+      "id": "contributing",
+      "title": "Contributing",
+      "order": 1,
+      "content": [
+        {
+          "type": "text",
+          "value": "We welcome contributions! Priority areas:"
+        },
+        {
+          "type": "list",
+          "items": [
+            "Additional Playwright adapter languages (Java, .NET)",
+            "CI/CD integrations (GitHub Action, pre-commit hooks)",
+            "Export formats (Postman, Insomnia, Bruno)",
+            "Documentation and examples"
+          ]
+        }
+      ]
+    }
+  ],
+  "version_history": [
+    {
+      "version": "v0.1.0",
+      "date": "2026-01-08",
+      "status": "completed",
+      "summary": "Initial release with IR, inference, OpenAPI generation, and CLI tools"
+    },
+    {
+      "version": "v0.2.0",
+      "date": null,
+      "status": "planned",
+      "summary": "IR enhancements, context support, additional writers"
+    },
+    {
+      "version": "v0.3.0",
+      "date": null,
+      "status": "planned",
+      "summary": "Additional Playwright adapters (Java, .NET)"
+    },
+    {
+      "version": "v0.4.0",
+      "date": null,
+      "status": "planned",
+      "summary": "CI/CD integration (GitHub Action, pre-commit)"
+    },
+    {
+      "version": "v0.5.0",
+      "date": null,
+      "status": "planned",
+      "summary": "Export formats (Postman, Insomnia, Bruno, HTTPie)"
+    },
+    {
+      "version": "v0.6.0",
+      "date": null,
+      "status": "planned",
+      "summary": "Validation and linting"
+    }
+  ]
+}
