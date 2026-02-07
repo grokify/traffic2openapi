@@ -15,36 +15,43 @@
         { "description": "CLI tools for spec management: diff, merge, serve, and static site generation" }
       ],
       "added": [
-        { "description": "IR (Intermediate Representation) JSON Schema v1 for HTTP traffic records" },
-        { "description": "`pkg/ir` package with types, batch/NDJSON I/O, and streaming support" },
-        { "description": "`pkg/har` package for HAR file parsing and conversion" },
-        { "description": "`pkg/inference` engine for path template and JSON Schema inference" },
-        { "description": "`pkg/openapi` generator supporting OpenAPI 3.0.3, 3.1.0, and 3.2.0" },
-        { "description": "`pkg/sitegen` package for static HTML documentation site generation" },
-        { "description": "`traffic2openapi` CLI with `convert`, `generate`, and `validate` commands" },
-        { "description": "`merge` command for combining multiple IR files or OpenAPI specs with deduplication" },
-        { "description": "`diff` command for comparing OpenAPI specs with breaking change detection" },
-        { "description": "`serve` command for interactive documentation with Swagger UI or Redoc" },
-        { "description": "`site` command for generating static HTML documentation from traffic logs" },
-        { "description": "Watch mode for `generate` command with file change auto-regeneration" },
-        { "description": "Path parameter detection for UUIDs, numeric IDs, hashes, and dates" },
-        { "description": "Context-aware path parameter naming with 180+ resource patterns" },
-        { "description": "Format detection for email, UUID, date-time, URI, IPv4, and IPv6" },
-        { "description": "Required vs optional field tracking across multiple requests" },
-        { "description": "Security scheme detection for Bearer (with JWT), Basic auth, and API keys" },
-        { "description": "Pagination pattern detection for page/limit and cursor-based patterns" },
-        { "description": "Rate limit header detection (X-RateLimit-*, Retry-After)" },
-        { "description": "Sensitive header filtering (authorization, cookies, API keys)" },
-        { "description": "Playwright adapters for Python and TypeScript" },
-        { "description": "LoggingTransport for capturing HTTP traffic from Go http.Client" }
+        { "description": "IR (Intermediate Representation) JSON Schema v1 for HTTP traffic records", "commit": "d730b1e" },
+        { "description": "`pkg/ir` package with types, batch/NDJSON I/O, and streaming support", "commit": "65166ae" },
+        { "description": "`pkg/har` package for HAR file parsing and conversion", "commit": "724d660" },
+        { "description": "`pkg/inference` engine for path template and JSON Schema inference", "commit": "73ef018" },
+        { "description": "`pkg/openapi` generator supporting OpenAPI 3.0.3, 3.1.0, and 3.2.0", "commit": "328d741" },
+        { "description": "`pkg/sitegen` package for static HTML documentation site generation", "commit": "9b0ecda" },
+        { "description": "`traffic2openapi` CLI with `convert`, `generate`, and `validate` commands", "commit": "5040d62" },
+        { "description": "`merge` command for combining multiple IR files or OpenAPI specs with deduplication", "commit": "5040d62" },
+        { "description": "`diff` command for comparing OpenAPI specs with breaking change detection", "commit": "5040d62" },
+        { "description": "`serve` command for interactive documentation with Swagger UI or Redoc", "commit": "5040d62" },
+        { "description": "`site` command for generating static HTML documentation from traffic logs", "commit": "5040d62" },
+        { "description": "Watch mode for `generate` command with file change auto-regeneration", "commit": "5040d62" },
+        { "description": "Path parameter detection for UUIDs, numeric IDs, hashes, and dates", "commit": "73ef018" },
+        { "description": "Context-aware path parameter naming with 180+ resource patterns", "commit": "73ef018" },
+        { "description": "Format detection for email, UUID, date-time, URI, IPv4, and IPv6", "commit": "73ef018" },
+        { "description": "Required vs optional field tracking across multiple requests", "commit": "73ef018" },
+        { "description": "Security scheme detection for Bearer (with JWT), Basic auth, and API keys", "commit": "73ef018" },
+        { "description": "Pagination pattern detection for page/limit and cursor-based patterns", "commit": "73ef018" },
+        { "description": "Rate limit header detection (X-RateLimit-*, Retry-After)", "commit": "73ef018" },
+        { "description": "Sensitive header filtering (authorization, cookies, API keys)", "commit": "73ef018" },
+        { "description": "Playwright adapters for Python and TypeScript", "commit": "eb722cd" },
+        { "description": "LoggingTransport for capturing HTTP traffic from Go http.Client", "commit": "65166ae" }
       ],
       "documentation": [
-        { "description": "README with quick start, architecture diagram, and API usage examples" },
-        { "description": "Browser capture guide for Playwright, Cypress, and DevTools" },
-        { "description": "MkDocs documentation site with comprehensive guides" }
+        { "description": "README with quick start, architecture diagram, and API usage examples", "commit": "2c9ad34" },
+        { "description": "Browser capture guide for Playwright, Cypress, and DevTools", "commit": "05a0463" },
+        { "description": "MkDocs documentation site with comprehensive guides", "commit": "05a0463" }
       ],
       "tests": [
-        { "description": "Unit tests for IR, inference, OpenAPI, and HAR packages" }
+        { "description": "Unit tests for IR, inference, OpenAPI, and HAR packages", "commit": "65166ae" }
+      ],
+      "build": [
+        { "description": "GitHub Actions CI workflow with cross-platform testing (Linux, macOS, Windows)", "commit": "cd7340f" },
+        { "description": "golangci-lint workflow for static analysis", "commit": "cd7340f" },
+        { "description": "CodeQL SAST workflow for security scanning", "commit": "cd7340f" },
+        { "description": "Playwright adapters workflow for Python and TypeScript adapter testing", "commit": "cd7340f" },
+        { "description": "Dependabot configuration for automated dependency updates", "commit": "cd7340f" }
       ]
     }
   ]

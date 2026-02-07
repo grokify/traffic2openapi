@@ -89,6 +89,16 @@ The IR format provides a common contract between all traffic sources and the Go 
 | `pkg/openapi` | OpenAPI spec generation |
 | `pkg/sitegen` | Static HTML documentation site generation |
 
+## CI/CD
+
+GitHub Actions workflows for automated quality assurance:
+
+- **CI**: Cross-platform testing on Linux, macOS, and Windows
+- **Linting**: golangci-lint static analysis
+- **Security**: CodeQL SAST scanning
+- **Adapters**: Playwright adapter testing for Python and TypeScript
+- **Dependabot**: Automated dependency updates
+
 ## What's Next
 
 Planned for future releases:
