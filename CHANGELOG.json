@@ -7,7 +7,7 @@
   "releases": [
     {
       "version": "v0.1.0",
-      "date": "2026-01-08",
+      "date": "2026-02-07",
       "highlights": [
         { "description": "Generate OpenAPI 3.0/3.1/3.2 specifications from HTTP traffic logs captured via HAR files, proxy captures, or test automation" },
         { "description": "Multi-source traffic capture with adapters for HAR files, Playwright, Go http.Client, and proxy logs" },
