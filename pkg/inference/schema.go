@@ -2,7 +2,7 @@ package inference
 
 import (
 	"sort"
-	"strings"
+	"strconv"
 )
 
 // ProcessBody extracts schema information from a JSON body into a SchemaStore.
@@ -349,8 +349,7 @@ func formatExample(v any) string {
 	case string:
 		return "s:" + val
 	case float64:
-		return "n:" + strings.TrimRight(strings.TrimRight(
-			strings.Replace(string(rune(int(val*1000000))), ".", "", 1), "0"), ".")
+		return "n:" + strconv.FormatFloat(val, 'f', -1, 64)
 	case bool:
 		if val {
 			return "b:true"
