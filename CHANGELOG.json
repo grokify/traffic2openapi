@@ -1,40 +1,42 @@
 {
-  "ir_version": "1.0",
+  "irVersion": "1.0",
   "project": "traffic2openapi",
   "repository": "https://github.com/grokify/traffic2openapi",
   "versioning": "semver",
-  "commit_convention": "conventional",
+  "commitConvention": "conventional",
   "releases": [
     {
       "version": "v0.2.0",
-      "date": "",
+      "date": "2026-03-14",
       "highlights": [
         { "description": "Fluent builder API for constructing OpenAPI 3.x specifications programmatically" },
         { "description": "libopenapi-based spec validation with detailed error reporting" },
         { "description": "Multi-version output generation (3.0.3, 3.1.0, 3.2.0) with automatic version conversion" }
       ],
       "added": [
-        { "description": "`pkg/openapibuilder` package with fluent builder API for OpenAPI spec construction" },
-        { "description": "`pkg/openapi/validate` package for OpenAPI specification validation using libopenapi" },
-        { "description": "`pkg/openapi/convert` package for multi-version OpenAPI spec conversion" },
-        { "description": "`validate-spec` CLI command for validating OpenAPI specification files" },
-        { "description": "`--versions` flag for generating multiple OpenAPI versions simultaneously (comma-separated: 3.0,3.1,3.2)" },
-        { "description": "`--all-versions` flag for generating all supported OpenAPI versions (3.0.3, 3.1.0, 3.2.0)" },
-        { "description": "Built-in validation for generated specs (enabled by default)" },
-        { "description": "`--skip-validation` flag to skip spec validation during generation" },
-        { "description": "Version-aware nullable handling (OpenAPI 3.0 nullable keyword vs 3.1+ type arrays)" },
-        { "description": "OAuth2 flow builders for authorization_code, client_credentials, implicit, and password flows" }
+        { "description": "`pkg/openapibuilder` package with fluent builder API for OpenAPI spec construction", "commit": "eefff59" },
+        { "description": "`pkg/openapi/validate` package for OpenAPI specification validation using libopenapi", "commit": "1e641e5" },
+        { "description": "`pkg/openapi/convert` package for multi-version OpenAPI spec conversion", "commit": "23232b7" },
+        { "description": "`validate-spec` CLI command for validating OpenAPI specification files", "commit": "1e641e5" },
+        { "description": "`--versions` flag for generating multiple OpenAPI versions simultaneously (comma-separated: 3.0,3.1,3.2)", "commit": "5f25721" },
+        { "description": "`--all-versions` flag for generating all supported OpenAPI versions (3.0.3, 3.1.0, 3.2.0)", "commit": "5f25721" },
+        { "description": "Built-in validation for generated specs (enabled by default)", "commit": "5f25721" },
+        { "description": "`--skip-validation` flag to skip spec validation during generation", "commit": "5f25721" },
+        { "description": "Version-aware nullable handling (OpenAPI 3.0 nullable keyword vs 3.1+ type arrays)", "commit": "eefff59" },
+        { "description": "OAuth2 flow builders for authorization_code, client_credentials, implicit, and password flows", "commit": "eefff59" }
       ],
       "documentation": [
-        { "description": "OpenAPI Builder usage guide with fluent API examples" },
-        { "description": "`examples/validation/` demonstrating spec validation with libopenapi" },
-        { "description": "Updated CLI documentation with new commands and flags" }
+        { "description": "Restructure documentation for GitHub Pages (move markdown source to docs/)", "commit": "da69b22" },
+        { "description": "`examples/validation/` demonstrating spec validation with libopenapi", "commit": "1e641e5" },
+        { "description": "`examples/builder/` demonstrating fluent builder API", "commit": "eefff59" },
+        { "description": "`examples/multiversion/` demonstrating multi-version output", "commit": "23232b7" }
       ],
       "tests": [
-        { "description": "Additional tests for validate, convert, openapibuilder, and har packages" }
+        { "description": "Additional tests for validate, convert, openapibuilder, and har packages", "commit": "9e23420" }
       ],
       "dependencies": [
-        { "description": "Added `github.com/pb33f/libopenapi` for OpenAPI parsing and validation" }
+        { "description": "Add `github.com/pb33f/libopenapi` for OpenAPI parsing and validation", "commit": "e5e30ec" },
+        { "description": "Update `github.com/grokify/omnistorage` to v0.2.1", "commit": "5556562" }
       ]
     },
     {
