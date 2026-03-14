@@ -117,8 +117,14 @@ type Example struct {
 // Schema represents a JSON Schema (OpenAPI 3.1 uses JSON Schema 2020-12).
 type Schema struct {
 	// Core
-	Type   any    `json:"type,omitempty" yaml:"type,omitempty"` // string or []string for nullable
+	Type   any    `json:"type,omitempty" yaml:"type,omitempty"` // string or []string for nullable (3.1+)
 	Format string `json:"format,omitempty" yaml:"format,omitempty"`
+
+	// Nullable (OpenAPI 3.0 only - use type array with "null" for 3.1+)
+	Nullable bool `json:"nullable,omitempty" yaml:"nullable,omitempty"`
+
+	// Example (OpenAPI 3.0 - use Examples array for 3.1+)
+	Example any `json:"example,omitempty" yaml:"example,omitempty"`
 
 	// Metadata
 	Title       string `json:"title,omitempty" yaml:"title,omitempty"`

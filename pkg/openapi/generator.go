@@ -14,6 +14,7 @@ type Version string
 const (
 	Version30 Version = "3.0.3"
 	Version31 Version = "3.1.0"
+	Version32 Version = "3.2.0"
 )
 
 // GeneratorOptions configures the OpenAPI generator.
