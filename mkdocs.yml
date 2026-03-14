@@ -60,6 +60,7 @@ nav:
       - LoggingTransport: go-packages/logging-transport.md
       - Inference Engine: go-packages/inference.md
       - OpenAPI Generator: go-packages/openapi.md
+      - OpenAPI Builder: go-packages/builder.md
   - Adapters:
       - Overview: adapters/overview.md
       - HAR Files: adapters/har.md
@@ -68,3 +69,6 @@ nav:
       - Commands: cli/commands.md
   - API Reference:
       - pkg/ir: api/ir.md
+  - Releases:
+      - v0.2.0: releases/v0.2.0.md
+      - v0.1.0: releases/v0.1.0.md
