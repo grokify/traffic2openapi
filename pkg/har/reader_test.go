@@ -6,6 +6,7 @@ import (
 	"strings"
 	"testing"
 
+	chromedphar "github.com/chromedp/cdproto/har"
 	"github.com/grokify/traffic2openapi/pkg/ir"
 )
 
@@ -251,4 +252,185 @@ func findExamplesDir() string {
 	}
 
 	return ""
+}
+
+func TestReadFileNotFound(t *testing.T) {
+	reader := NewReader()
+	_, err := reader.ReadFile("/nonexistent/path/to/file.har")
+	if err == nil {
+		t.Error("expected error for nonexistent file")
+	}
+}
+
+func TestReadDir(t *testing.T) {
+	tmpDir := t.TempDir()
+
+	// Create two HAR files
+	harContent := `{
+		"log": {
+			"version": "1.2",
+			"creator": {"name": "test", "version": "1.0"},
+			"entries": [
+				{
+					"request": {"method": "GET", "url": "https://example.com/test", "httpVersion": "HTTP/1.1", "headers": [], "queryString": [], "cookies": [], "headersSize": 0, "bodySize": 0},
+					"response": {"status": 200, "statusText": "OK", "httpVersion": "HTTP/1.1", "headers": [], "cookies": [], "content": {"size": 0, "mimeType": ""}, "redirectURL": "", "headersSize": 0, "bodySize": 0},
+					"cache": {},
+					"timings": {"send": 0, "wait": 0, "receive": 0}
+				}
+			]
+		}
+	}`
+
+	if err := os.WriteFile(filepath.Join(tmpDir, "test1.har"), []byte(harContent), 0600); err != nil {
+		t.Fatalf("failed to write test file: %v", err)
+	}
+	if err := os.WriteFile(filepath.Join(tmpDir, "test2.har"), []byte(harContent), 0600); err != nil {
+		t.Fatalf("failed to write test file: %v", err)
+	}
+	// Write a non-HAR file that should be skipped
+	if err := os.WriteFile(filepath.Join(tmpDir, "other.txt"), []byte("not a har"), 0600); err != nil {
+		t.Fatalf("failed to write test file: %v", err)
+	}
+
+	reader := NewReader()
+	records, err := reader.ReadDir(tmpDir)
+	if err != nil {
+		t.Fatalf("ReadDir failed: %v", err)
+	}
+
+	if len(records) != 2 {
+		t.Errorf("expected 2 records, got %d", len(records))
+	}
+}
+
+func TestParseFile(t *testing.T) {
+	tmpDir := t.TempDir()
+	harContent := `{
+		"log": {
+			"version": "1.2",
+			"creator": {"name": "test", "version": "1.0"},
+			"entries": []
+		}
+	}`
+
+	harPath := filepath.Join(tmpDir, "test.har")
+	if err := os.WriteFile(harPath, []byte(harContent), 0600); err != nil {
+		t.Fatalf("failed to write test file: %v", err)
+	}
+
+	h, err := ParseFile(harPath)
+	if err != nil {
+		t.Fatalf("ParseFile failed: %v", err)
+	}
+	if h.Log == nil {
+		t.Error("Log should not be nil")
+	}
+}
+
+func TestParseFileNotFound(t *testing.T) {
+	_, err := ParseFile("/nonexistent/path/to/file.har")
+	if err == nil {
+		t.Error("expected error for nonexistent file")
+	}
+}
+
+func TestEntryCount(t *testing.T) {
+	tmpDir := t.TempDir()
+	harContent := `{
+		"log": {
+			"version": "1.2",
+			"creator": {"name": "test", "version": "1.0"},
+			"entries": [
+				{
+					"request": {"method": "GET", "url": "https://example.com/test", "httpVersion": "HTTP/1.1", "headers": [], "queryString": [], "cookies": [], "headersSize": 0, "bodySize": 0},
+					"response": {"status": 200, "statusText": "OK", "httpVersion": "HTTP/1.1", "headers": [], "cookies": [], "content": {"size": 0, "mimeType": ""}, "redirectURL": "", "headersSize": 0, "bodySize": 0},
+					"cache": {},
+					"timings": {"send": 0, "wait": 0, "receive": 0}
+				},
+				{
+					"request": {"method": "POST", "url": "https://example.com/test", "httpVersion": "HTTP/1.1", "headers": [], "queryString": [], "cookies": [], "headersSize": 0, "bodySize": 0},
+					"response": {"status": 201, "statusText": "Created", "httpVersion": "HTTP/1.1", "headers": [], "cookies": [], "content": {"size": 0, "mimeType": ""}, "redirectURL": "", "headersSize": 0, "bodySize": 0},
+					"cache": {},
+					"timings": {"send": 0, "wait": 0, "receive": 0}
+				}
+			]
+		}
+	}`
+
+	harPath := filepath.Join(tmpDir, "test.har")
+	if err := os.WriteFile(harPath, []byte(harContent), 0600); err != nil {
+		t.Fatalf("failed to write test file: %v", err)
+	}
+
+	count, err := EntryCount(harPath)
+	if err != nil {
+		t.Fatalf("EntryCount failed: %v", err)
+	}
+	if count != 2 {
+		t.Errorf("count = %d, want %d", count, 2)
+	}
+}
+
+func TestFilterByStatus(t *testing.T) {
+	h, _ := Parse([]byte(`{
+		"log": {
+			"version": "1.2",
+			"entries": [
+				{"request": {"method": "GET", "url": "https://example.com/a", "httpVersion": "HTTP/1.1", "headers": [], "queryString": [], "cookies": [], "headersSize": 0, "bodySize": 0}, "response": {"status": 200, "statusText": "OK", "httpVersion": "HTTP/1.1", "headers": [], "cookies": [], "content": {"size": 0, "mimeType": ""}, "redirectURL": "", "headersSize": 0, "bodySize": 0}, "cache": {}, "timings": {"send": 0, "wait": 0, "receive": 0}},
+				{"request": {"method": "GET", "url": "https://example.com/b", "httpVersion": "HTTP/1.1", "headers": [], "queryString": [], "cookies": [], "headersSize": 0, "bodySize": 0}, "response": {"status": 404, "statusText": "Not Found", "httpVersion": "HTTP/1.1", "headers": [], "cookies": [], "content": {"size": 0, "mimeType": ""}, "redirectURL": "", "headersSize": 0, "bodySize": 0}, "cache": {}, "timings": {"send": 0, "wait": 0, "receive": 0}},
+				{"request": {"method": "GET", "url": "https://example.com/c", "httpVersion": "HTTP/1.1", "headers": [], "queryString": [], "cookies": [], "headersSize": 0, "bodySize": 0}, "response": {"status": 200, "statusText": "OK", "httpVersion": "HTTP/1.1", "headers": [], "cookies": [], "content": {"size": 0, "mimeType": ""}, "redirectURL": "", "headersSize": 0, "bodySize": 0}, "cache": {}, "timings": {"send": 0, "wait": 0, "receive": 0}}
+			]
+		}
+	}`))
+
+	entries200 := FilterByStatus(h, 200)
+	if len(entries200) != 2 {
+		t.Errorf("expected 2 200 entries, got %d", len(entries200))
+	}
+
+	entries404 := FilterByStatus(h, 404)
+	if len(entries404) != 1 {
+		t.Errorf("expected 1 404 entry, got %d", len(entries404))
+	}
+}
+
+func TestFilterByContentType(t *testing.T) {
+	h, _ := Parse([]byte(`{
+		"log": {
+			"version": "1.2",
+			"entries": [
+				{"request": {"method": "GET", "url": "https://example.com/a", "httpVersion": "HTTP/1.1", "headers": [], "queryString": [], "cookies": [], "headersSize": 0, "bodySize": 0}, "response": {"status": 200, "statusText": "OK", "httpVersion": "HTTP/1.1", "headers": [], "cookies": [], "content": {"size": 0, "mimeType": "application/json"}, "redirectURL": "", "headersSize": 0, "bodySize": 0}, "cache": {}, "timings": {"send": 0, "wait": 0, "receive": 0}},
+				{"request": {"method": "GET", "url": "https://example.com/b", "httpVersion": "HTTP/1.1", "headers": [], "queryString": [], "cookies": [], "headersSize": 0, "bodySize": 0}, "response": {"status": 200, "statusText": "OK", "httpVersion": "HTTP/1.1", "headers": [], "cookies": [], "content": {"size": 0, "mimeType": "text/html"}, "redirectURL": "", "headersSize": 0, "bodySize": 0}, "cache": {}, "timings": {"send": 0, "wait": 0, "receive": 0}},
+				{"request": {"method": "GET", "url": "https://example.com/c", "httpVersion": "HTTP/1.1", "headers": [], "queryString": [], "cookies": [], "headersSize": 0, "bodySize": 0}, "response": {"status": 200, "statusText": "OK", "httpVersion": "HTTP/1.1", "headers": [], "cookies": [], "content": {"size": 0, "mimeType": "application/json; charset=utf-8"}, "redirectURL": "", "headersSize": 0, "bodySize": 0}, "cache": {}, "timings": {"send": 0, "wait": 0, "receive": 0}}
+			]
+		}
+	}`))
+
+	jsonEntries := FilterByContentType(h, "application/json")
+	if len(jsonEntries) != 2 {
+		t.Errorf("expected 2 json entries, got %d", len(jsonEntries))
+	}
+
+	htmlEntries := FilterByContentType(h, "text/html")
+	if len(htmlEntries) != 1 {
+		t.Errorf("expected 1 html entry, got %d", len(htmlEntries))
+	}
+}
+
+func TestFilterEntriesNil(t *testing.T) {
+	var nilHAR *chromedphar.HAR = nil
+
+	// Test nil HAR
+	filtered := FilterEntries(nilHAR, func(e *chromedphar.Entry) bool { return true })
+	if filtered != nil {
+		t.Error("expected nil for nil HAR")
+	}
+
+	// Test nil Log
+	h, _ := Parse([]byte(`{"log":{"version":"1.2","entries":[]}}`))
+	h.Log = nil
+	filtered = FilterEntries(h, func(e *chromedphar.Entry) bool { return true })
+	if filtered != nil {
+		t.Error("expected nil for nil Log")
+	}
 }
