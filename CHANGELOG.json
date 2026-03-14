@@ -36,7 +36,7 @@
       ],
       "dependencies": [
         { "description": "Add `github.com/pb33f/libopenapi` for OpenAPI parsing and validation", "commit": "e5e30ec" },
-        { "description": "Update `github.com/grokify/omnistorage` to v0.2.1", "commit": "5556562" }
+        { "description": "Update `github.com/grokify/omnistorage` to v0.2.2", "commit": "f6d02fe" }
       ]
     },
     {
