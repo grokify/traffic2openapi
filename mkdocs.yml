@@ -44,7 +44,7 @@ markdown_extensions:
   - toc:
       permalink: true
 
-docs_dir: docsrc
+docs_dir: docs
 
 nav:
   - Home: index.md

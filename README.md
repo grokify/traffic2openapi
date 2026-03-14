@@ -35,21 +35,24 @@ traffic2openapi validate ./logs/
 
 ## Features
 
-- **Multi-source input**: HAR files, Playwright captures, proxy logs, or manual capture
-- **Intelligent inference**: Automatically detects path parameters, query params, schemas
-- **OpenAPI 3.0/3.1/3.2**: Generate specs for any version
-- **Format detection**: Email, UUID, date-time, URI, IPv4/IPv6
-- **Type inference**: String, integer, number, boolean, array, object
-- **Required/optional**: Tracks field presence across requests
-- **Security detection**: Automatically detects Bearer, Basic, API Key authentication
-- **Pagination detection**: Identifies page/limit/offset/cursor patterns
-- **Rate limit detection**: Captures X-RateLimit-* headers from responses
-- **Provider pattern**: Symmetric read/write for IR records (NDJSON, Gzip, Storage, Channel)
-- **LoggingTransport**: Capture HTTP traffic from Go `http.Client`
-- **Spec comparison**: Diff two OpenAPI specs to detect breaking changes
-- **Documentation server**: Serve specs with Swagger UI or Redoc
-- **Static site generator**: Generate HTML documentation from traffic logs
-- **Watch mode**: Auto-regenerate specs when IR files change
+- 📥 **Multi-source input**: HAR files, Playwright captures, proxy logs, or manual capture
+- 🧠 **Intelligent inference**: Automatically detects path parameters, query params, schemas
+- 📋 **OpenAPI 3.0/3.1/3.2**: Generate specs for any version
+- 📦 **Multi-version output**: Generate specs for multiple OpenAPI versions simultaneously
+- ✅ **Spec validation**: Validate generated specs using libopenapi
+- 🔍 **Format detection**: Email, UUID, date-time, URI, IPv4/IPv6
+- 🏷️ **Type inference**: String, integer, number, boolean, array, object
+- 📊 **Required/optional**: Tracks field presence across requests
+- 🔒 **Security detection**: Automatically detects Bearer, Basic, API Key authentication
+- 📑 **Pagination detection**: Identifies page/limit/offset/cursor patterns
+- ⏱️ **Rate limit detection**: Captures X-RateLimit-* headers from responses
+- 🔄 **Provider pattern**: Symmetric read/write for IR records (NDJSON, Gzip, Storage, Channel)
+- 📡 **LoggingTransport**: Capture HTTP traffic from Go `http.Client`
+- 🛠️ **Fluent builder API**: Programmatically construct OpenAPI specs with `openapibuilder` package
+- ⚖️ **Spec comparison**: Diff two OpenAPI specs to detect breaking changes
+- 🌐 **Documentation server**: Serve specs with Swagger UI or Redoc
+- 📝 **Static site generator**: Generate HTML documentation from traffic logs
+- 👁️ **Watch mode**: Auto-regenerate specs when IR files change
 
 ## Architecture
 
@@ -296,6 +299,7 @@ The `pkg/openapi` package generates OpenAPI 3.0/3.1 specifications.
 |---------|-------------|
 | `Version31` | OpenAPI 3.1.0 (default) - Full JSON Schema 2020-12 |
 | `Version30` | OpenAPI 3.0.3 - For compatibility |
+| `Version32` | OpenAPI 3.2.0 - Latest specification |
 
 ### Output Formats
 
@@ -307,6 +311,56 @@ openapi.WriteFile("spec.json", spec)  // JSON
 // Convert to string
 yamlStr, _ := openapi.ToString(spec, openapi.FormatYAML)
 jsonStr, _ := openapi.ToString(spec, openapi.FormatJSON)
+```
+
+## OpenAPI Builder
+
+The `pkg/openapibuilder` package provides a fluent API for programmatically constructing OpenAPI specifications.
+
+### Basic Usage
+
+```go
+import "github.com/grokify/traffic2openapi/pkg/openapibuilder"
+
+spec, err := openapibuilder.NewSpec(openapibuilder.Version310).
+    Title("Pet Store API").
+    Version("1.0.0").
+    Server("https://api.petstore.io/v1").
+    Components().
+        Schema("Pet", openapibuilder.ObjectSchema().
+            Property("id", openapibuilder.IntegerSchema().Format("int64")).
+            Property("name", openapibuilder.StringSchema()).
+            Required("id", "name")).
+        SecurityScheme("bearerAuth").BearerAuth().BearerFormat("JWT").Done().
+    Done().
+    Path("/pets").
+        Get().
+            Summary("List all pets").
+            OperationID("listPets").
+            Response(200).Description("A list of pets").
+                JSON(openapibuilder.ArraySchema(openapibuilder.RefSchema("Pet"))).Done().
+        Done().
+    Done().
+    Build()
+```
+
+### Multi-Version Output
+
+Generate the same spec in multiple OpenAPI versions:
+
+```go
+import "github.com/grokify/traffic2openapi/pkg/openapi/convert"
+
+// Generate for all supported versions
+output, err := convert.AllVersions(spec)
+
+// Or specific versions
+output, err := convert.NewMultiVersionOutput(spec,
+    convert.Version303, convert.Version310, convert.Version320)
+
+// Write all versions to files
+output.WriteFilesToDir("./output", "api", openapi.FormatYAML)
+// Creates: api-3.0.3.yaml, api-3.1.0.yaml, api-3.2.0.yaml
 ```
 
 ## HAR Adapter
@@ -419,6 +473,24 @@ traffic2openapi validate ./logs/
 traffic2openapi validate ./logs/ --verbose
 ```
 
+### Validate-Spec Command
+
+Validate OpenAPI specification files using libopenapi:
+
+```bash
+# Validate a single OpenAPI spec
+traffic2openapi validate-spec openapi.yaml
+
+# Validate all specs in a directory
+traffic2openapi validate-spec ./specs/
+
+# Verbose output with warnings
+traffic2openapi validate-spec openapi.yaml --verbose
+
+# Strict mode (treat warnings as errors)
+traffic2openapi validate-spec openapi.yaml --strict
+```
+
 ### Merge Command
 
 Merge multiple IR files or OpenAPI specs:
@@ -504,6 +576,8 @@ Features:
 | `--input` | `-i` | (required) | Input file or directory |
 | `--output` | `-o` | stdout | Output file path |
 | `--version` | `-v` | `3.1` | OpenAPI version: 3.0, 3.1, or 3.2 |
+| `--versions` | | | Multiple versions (comma-separated: 3.0,3.1,3.2) |
+| `--all-versions` | | `false` | Generate all supported versions |
 | `--format` | `-f` | auto | Output format: json or yaml |
 | `--title` | | `Generated API` | API title |
 | `--description` | | | API description |
@@ -512,6 +586,7 @@ Features:
 | `--include-errors` | | `true` | Include 4xx/5xx responses |
 | `--watch` | `-w` | `false` | Watch for file changes and regenerate |
 | `--debounce` | | `500ms` | Debounce interval for watch mode |
+| `--skip-validation` | | `false` | Skip validation of generated spec |
 
 ## Project Structure
 
@@ -547,7 +622,10 @@ traffic2openapi/
 │   ├── openapi/             # OpenAPI generation
 │   │   ├── generator.go     # Spec builder
 │   │   ├── types.go         # OpenAPI 3.x types
-│   │   └── writer.go        # JSON/YAML output
+│   │   ├── writer.go        # JSON/YAML output
+│   │   ├── convert/         # Multi-version conversion
+│   │   └── validate/        # Spec validation (libopenapi)
+│   ├── openapibuilder/      # Fluent builder API
 │   └── sitegen/             # Static HTML site generator
 │       ├── engine.go        # Site engine (wraps inference)
 │       ├── generator.go     # HTML generation

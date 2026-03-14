@@ -15,6 +15,7 @@ go install github.com/grokify/traffic2openapi/cmd/traffic2openapi@latest
 | `generate` | Generate OpenAPI spec from IR files |
 | `convert har` | Convert HAR files to IR format |
 | `validate` | Validate IR files |
+| `validate-spec` | Validate OpenAPI specification files |
 | `site` | Generate static HTML documentation site |
 
 ## generate
@@ -34,12 +35,17 @@ traffic2openapi generate -i <input> -o <output> [flags]
 | `--input` | `-i` | (required) | Input file or directory |
 | `--output` | `-o` | stdout | Output file path |
 | `--version` | `-v` | `3.1` | OpenAPI version: 3.0, 3.1, or 3.2 |
+| `--versions` | | | Multiple versions (comma-separated: 3.0,3.1,3.2) |
+| `--all-versions` | | `false` | Generate all supported versions |
 | `--format` | `-f` | auto | Output format: json or yaml |
 | `--title` | | `Generated API` | API title |
 | `--description` | | | API description |
 | `--api-version` | | `1.0.0` | API version |
 | `--server` | | | Server URL (repeatable) |
 | `--include-errors` | | `true` | Include 4xx/5xx responses |
+| `--watch` | `-w` | `false` | Watch for file changes and regenerate |
+| `--debounce` | | `500ms` | Debounce interval for watch mode |
+| `--skip-validation` | | `false` | Skip validation of generated spec |
 
 ### Examples
 
@@ -49,6 +55,12 @@ traffic2openapi generate -i traffic.ndjson -o openapi.yaml
 
 # OpenAPI 3.0 in JSON
 traffic2openapi generate -i traffic.ndjson -o api.json --version 3.0 --format json
+
+# Generate multiple versions at once
+traffic2openapi generate -i traffic.ndjson -o api.yaml --versions 3.0,3.1,3.2
+
+# Generate all supported versions
+traffic2openapi generate -i traffic.ndjson -o api.yaml --all-versions
 
 # With metadata
 traffic2openapi generate -i traffic.ndjson -o openapi.yaml \
@@ -60,6 +72,12 @@ traffic2openapi generate -i traffic.ndjson -o openapi.yaml \
 
 # From directory
 traffic2openapi generate -i ./traffic-logs/ -o openapi.yaml
+
+# Watch mode - auto-regenerate on file changes
+traffic2openapi generate -i ./logs/ -o api.yaml --watch
+
+# Skip validation for faster generation
+traffic2openapi generate -i traffic.ndjson -o api.yaml --skip-validation
 ```
 
 ## convert har
@@ -128,6 +146,40 @@ traffic2openapi validate ./logs/
 
 # Verbose output
 traffic2openapi validate traffic.ndjson --verbose
+```
+
+## validate-spec
+
+Validate OpenAPI specification files using libopenapi.
+
+### Usage
+
+```bash
+traffic2openapi validate-spec <file or directory> [flags]
+```
+
+### Flags
+
+| Flag | Short | Default | Description |
+|------|-------|---------|-------------|
+| `--verbose` | `-V` | `false` | Show detailed validation results |
+| `--strict` | | `false` | Treat warnings as errors |
+| `--warnings` | `-w` | `true` | Show warnings |
+
+### Examples
+
+```bash
+# Validate a single file
+traffic2openapi validate-spec openapi.yaml
+
+# Validate all OpenAPI files in a directory
+traffic2openapi validate-spec ./specs/
+
+# Verbose output showing warnings
+traffic2openapi validate-spec openapi.yaml --verbose
+
+# Strict mode - fail on warnings
+traffic2openapi validate-spec openapi.yaml --strict
 ```
 
 ## Common Workflows

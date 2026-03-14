@@ -6,6 +6,38 @@
   "commit_convention": "conventional",
   "releases": [
     {
+      "version": "v0.2.0",
+      "date": "",
+      "highlights": [
+        { "description": "Fluent builder API for constructing OpenAPI 3.x specifications programmatically" },
+        { "description": "libopenapi-based spec validation with detailed error reporting" },
+        { "description": "Multi-version output generation (3.0.3, 3.1.0, 3.2.0) with automatic version conversion" }
+      ],
+      "added": [
+        { "description": "`pkg/openapibuilder` package with fluent builder API for OpenAPI spec construction" },
+        { "description": "`pkg/openapi/validate` package for OpenAPI specification validation using libopenapi" },
+        { "description": "`pkg/openapi/convert` package for multi-version OpenAPI spec conversion" },
+        { "description": "`validate-spec` CLI command for validating OpenAPI specification files" },
+        { "description": "`--versions` flag for generating multiple OpenAPI versions simultaneously (comma-separated: 3.0,3.1,3.2)" },
+        { "description": "`--all-versions` flag for generating all supported OpenAPI versions (3.0.3, 3.1.0, 3.2.0)" },
+        { "description": "Built-in validation for generated specs (enabled by default)" },
+        { "description": "`--skip-validation` flag to skip spec validation during generation" },
+        { "description": "Version-aware nullable handling (OpenAPI 3.0 nullable keyword vs 3.1+ type arrays)" },
+        { "description": "OAuth2 flow builders for authorization_code, client_credentials, implicit, and password flows" }
+      ],
+      "documentation": [
+        { "description": "OpenAPI Builder usage guide with fluent API examples" },
+        { "description": "`examples/validation/` demonstrating spec validation with libopenapi" },
+        { "description": "Updated CLI documentation with new commands and flags" }
+      ],
+      "tests": [
+        { "description": "Additional tests for validate, convert, openapibuilder, and har packages" }
+      ],
+      "dependencies": [
+        { "description": "Added `github.com/pb33f/libopenapi` for OpenAPI parsing and validation" }
+      ]
+    },
+    {
       "version": "v0.1.0",
       "date": "2026-02-07",
       "highlights": [
