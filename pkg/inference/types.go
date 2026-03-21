@@ -127,6 +127,14 @@ type EndpointData struct {
 	RequestBody  *BodyData             // request body schema
 	Responses    map[int]*ResponseData // status code -> response data
 	RequestCount int                   // number of requests observed
+
+	// Documentation fields (from IR records)
+	OperationID  string            // explicit operation ID (e.g., "getUserById")
+	Summary      string            // short one-line summary
+	Description  string            // full description (supports markdown)
+	Tags         []string          // tags for grouping operations
+	Deprecated   bool              // whether the operation is deprecated
+	ExternalDocs *ExternalDocsData // external documentation reference
 }
 
 // NewEndpointData creates a new EndpointData.
@@ -222,6 +230,34 @@ func NewResponseData(statusCode int) *ResponseData {
 	}
 }
 
+// ExternalDocsData holds external documentation reference.
+type ExternalDocsData struct {
+	URL         string
+	Description string
+}
+
+// TagDefinitionData holds tag metadata.
+type TagDefinitionData struct {
+	Name         string
+	Description  string
+	ExternalDocs *ExternalDocsData
+}
+
+// APIMetadataData holds API-level metadata from IR.
+type APIMetadataData struct {
+	Title          string
+	Description    string
+	APIVersion     string
+	TermsOfService string
+	ContactName    string
+	ContactEmail   string
+	ContactURL     string
+	LicenseName    string
+	LicenseURL     string
+	ExternalDocs   *ExternalDocsData
+	TagDefinitions []TagDefinitionData
+}
+
 // InferenceResult holds the complete inference results.
 type InferenceResult struct {
 	Endpoints        map[string]*EndpointData           // key: "METHOD /path/template"
@@ -230,6 +266,9 @@ type InferenceResult struct {
 	SecuritySchemes  map[string]*DetectedSecurityScheme // detected authentication schemes
 	PaginationParams map[string]*PaginationParam        // detected pagination parameters
 	RateLimitHeaders map[string]*RateLimitHeader        // detected rate limit headers
+
+	// API metadata (from IR batch metadata)
+	APIMetadata *APIMetadataData
 }
 
 // NewInferenceResult creates a new InferenceResult.
