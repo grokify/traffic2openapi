@@ -40,6 +40,9 @@ go install github.com/grokify/traffic2openapi/cmd/traffic2openapi@latest
 # Convert HAR file to IR format
 traffic2openapi convert har -i recording.har -o traffic.ndjson
 
+# Convert Postman collection to IR format
+traffic2openapi convert postman -i collection.json -o traffic.ndjson
+
 # Generate OpenAPI spec from IR
 traffic2openapi generate -i traffic.ndjson -o openapi.yaml
 
@@ -52,7 +55,7 @@ traffic2openapi validate ./logs/
 
 ## Features
 
-- 📥 **Multi-source input**: HAR files, Playwright captures, proxy logs, or manual capture
+- 📥 **Multi-source input**: HAR files, Postman collections, Playwright captures, proxy logs, or manual capture
 - 🧠 **Intelligent inference**: Automatically detects path parameters, query params, schemas
 - 📋 **OpenAPI 3.0/3.1/3.2**: Generate specs for any version
 - 📦 **Multi-version output**: Generate specs for multiple OpenAPI versions simultaneously
@@ -107,14 +110,17 @@ traffic2openapi validate ./logs/
 
 Different traffic sources capture different levels of detail:
 
-| Adapter | Req Headers | Req Body | Res Headers | Res Body | Query | Timing | Setup |
-|---------|:-----------:|:--------:|:-----------:|:--------:|:-----:|:------:|:-----:|
-| **HAR Files** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Low |
-| **Playwright** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Low |
-| **LoggingTransport** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Low |
-| **mitmproxy** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | Medium |
+| Adapter | Req Headers | Req Body | Res Headers | Res Body | Query | Timing | Docs | Setup |
+|---------|:-----------:|:--------:|:-----------:|:--------:|:-----:|:------:|:----:|:-----:|
+| **HAR Files** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | Low |
+| **Postman** | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | Low |
+| **Playwright** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | Low |
+| **LoggingTransport** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | Low |
+| **mitmproxy** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | Medium |
 
 **Legend:** ✅ Full support | ⚠️ Partial/Limited | ❌ Not available
+
+**Docs column**: Postman collections preserve descriptions, tags (from folders), and other documentation fields.
 
 ## IR (Intermediate Representation)
 
@@ -455,6 +461,14 @@ Convert traffic logs to IR format:
 ```bash
 # Convert HAR file to IR
 traffic2openapi convert har -i recording.har -o traffic.ndjson
+
+# Convert Postman collection to IR
+traffic2openapi convert postman -i collection.json -o traffic.ndjson
+
+# With Postman variable substitution
+traffic2openapi convert postman -i collection.json -o traffic.ndjson \
+    --var baseUrl=https://api.example.com \
+    --var apiKey=sk-xxx
 ```
 
 ### Generate Command
@@ -616,6 +630,7 @@ traffic2openapi/
 │       ├── generate.go      # Generate command (with watch mode)
 │       ├── validate.go      # Validate command
 │       ├── convert_har.go   # Convert command (HAR)
+│       ├── convert_postman.go # Convert command (Postman)
 │       ├── merge.go         # Merge command (IR/OpenAPI)
 │       ├── diff.go          # Diff command (OpenAPI comparison)
 │       ├── serve.go         # Serve command (Swagger UI/Redoc)
@@ -628,6 +643,9 @@ traffic2openapi/
 │   │   └── writer.go        # File writing, streaming
 │   ├── har/                 # HAR file parsing
 │   │   └── har.go           # HAR → IR conversion
+│   ├── postman/             # Postman collection parsing
+│   │   ├── converter.go     # Postman → IR conversion
+│   │   └── reader.go        # File reading utilities
 │   ├── inference/           # Traffic analysis
 │   │   ├── engine.go        # Main orchestrator
 │   │   ├── endpoint.go      # Endpoint clustering

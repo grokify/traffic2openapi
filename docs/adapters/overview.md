@@ -7,6 +7,7 @@ Adapters convert traffic from various sources to the IR format.
 | Adapter | Source | Request Body | Response Body | Setup |
 |---------|--------|:------------:|:-------------:|-------|
 | [HAR](har.md) | Browser DevTools, proxies | Yes | Yes | Low |
+| [Postman](postman.md) | Postman Collections | Yes | Yes | Low |
 | [Browser](browser.md) | Playwright, Cypress | Yes | Yes | Low |
 | LoggingTransport | Go http.Client | Yes | Yes | Low |
 | Proxy Captures | mitmproxy, Charles | Yes | Yes | Low-Medium |
@@ -16,6 +17,7 @@ Adapters convert traffic from various sources to the IR format.
 ### For Development/Testing
 
 - **HAR files**: Export from browser DevTools
+- **Postman collections**: Convert existing API documentation
 - **LoggingTransport**: Capture from Go http.Client
 - **Playwright/Cypress**: Capture during E2E tests
 
@@ -27,19 +29,22 @@ Adapters convert traffic from various sources to the IR format.
 ### For Quick Discovery
 
 - **HAR files**: Quick export from browser DevTools
+- **Postman collections**: Import existing API definitions
 - **Playwright**: Automated test traffic capture
 
 ## Fidelity Comparison
 
-| Feature | HAR | Playwright | LoggingTransport | Proxy |
-|---------|:---:|:----------:|:----------------:|:-----:|
-| Request Headers | Yes | Yes | Yes | Yes |
-| Request Body | Yes | Yes | Yes | Yes |
-| Response Headers | Yes | Yes | Yes | Yes |
-| Response Body | Yes | Yes | Yes | Yes |
-| Query Params | Yes | Yes | Yes | Yes |
-| Timing | Yes | Yes | Yes | Yes |
-| Request ID | Varies | Yes | Yes | Varies |
+| Feature | HAR | Postman | Playwright | LoggingTransport | Proxy |
+|---------|:---:|:-------:|:----------:|:----------------:|:-----:|
+| Request Headers | Yes | Yes | Yes | Yes | Yes |
+| Request Body | Yes | Yes | Yes | Yes | Yes |
+| Response Headers | Yes | Yes | Yes | Yes | Yes |
+| Response Body | Yes | Yes | Yes | Yes | Yes |
+| Query Params | Yes | Yes | Yes | Yes | Yes |
+| Timing | Yes | No | Yes | Yes | Yes |
+| Documentation | No | Yes | No | No | No |
+| Tags/Folders | No | Yes | No | No | No |
+| Variables | No | Yes | No | No | No |
 
 ## Common Workflow
 
@@ -51,6 +56,10 @@ Adapters convert traffic from various sources to the IR format.
 ```bash
 # Example with HAR
 traffic2openapi convert har -i recording.har -o traffic.ndjson
+traffic2openapi generate -i traffic.ndjson -o openapi.yaml
+
+# Example with Postman
+traffic2openapi convert postman -i collection.json -o traffic.ndjson
 traffic2openapi generate -i traffic.ndjson -o openapi.yaml
 ```
 
