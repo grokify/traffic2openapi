@@ -268,9 +268,9 @@ func ptrSource(s ir.IRRecordSource) *ir.IRRecordSource {
 func schemeFromString(s string) ir.RequestScheme {
 	switch strings.ToLower(s) {
 	case "https":
-		return ir.RequestSchemeHttps
+		return ir.RequestSchemeHTTPS
 	case "http":
-		return ir.RequestSchemeHttp
+		return ir.RequestSchemeHTTP
 	default:
 		return ir.RequestScheme(s)
 	}
