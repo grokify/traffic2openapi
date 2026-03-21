@@ -1,0 +1,536 @@
+{
+  "info": {
+    "_postman_id": "test-petstore-collection",
+    "name": "Pet Store API",
+    "description": "A sample Pet Store API for testing the Postman to IR converter.\n\nThis collection demonstrates:\n- CRUD operations\n- Path parameters\n- Query parameters\n- Request bodies\n- Multiple response codes\n- Folder structure for tags\n- Authentication headers",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.petstore.example.com/v1"
+    },
+    {
+      "key": "apiKey",
+      "value": "demo-api-key"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Pets",
+      "description": "Operations for managing pets in the store",
+      "item": [
+        {
+          "name": "List Pets",
+          "description": "Returns a paginated list of all pets in the store.\n\nSupports filtering by status and pagination.",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/pets?limit=10&offset=0&status=available",
+              "host": ["{{baseUrl}}"],
+              "path": ["pets"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Maximum number of pets to return"
+                },
+                {
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of pets to skip"
+                },
+                {
+                  "key": "status",
+                  "value": "available",
+                  "description": "Filter by pet status"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success - List of pets",
+              "code": 200,
+              "status": "OK",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "X-Total-Count",
+                  "value": "42"
+                }
+              ],
+              "body": "{\n  \"pets\": [\n    {\n      \"id\": 1,\n      \"name\": \"Buddy\",\n      \"species\": \"dog\",\n      \"breed\": \"Golden Retriever\",\n      \"age\": 3,\n      \"status\": \"available\",\n      \"tags\": [\"friendly\", \"trained\"]\n    },\n    {\n      \"id\": 2,\n      \"name\": \"Whiskers\",\n      \"species\": \"cat\",\n      \"breed\": \"Persian\",\n      \"age\": 5,\n      \"status\": \"available\",\n      \"tags\": [\"calm\"]\n    }\n  ],\n  \"total\": 42,\n  \"limit\": 10,\n  \"offset\": 0\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Pet by ID",
+          "description": "Returns a single pet by its unique identifier.",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/pets/:petId",
+              "host": ["{{baseUrl}}"],
+              "path": ["pets", ":petId"],
+              "variable": [
+                {
+                  "key": "petId",
+                  "value": "123",
+                  "description": "The unique identifier of the pet"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success - Pet found",
+              "code": 200,
+              "status": "OK",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 123,\n  \"name\": \"Buddy\",\n  \"species\": \"dog\",\n  \"breed\": \"Golden Retriever\",\n  \"age\": 3,\n  \"status\": \"available\",\n  \"tags\": [\"friendly\", \"trained\"],\n  \"createdAt\": \"2024-01-15T10:30:00Z\",\n  \"updatedAt\": \"2024-01-20T14:22:00Z\"\n}"
+            },
+            {
+              "name": "Not Found",
+              "code": 404,
+              "status": "Not Found",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"PET_NOT_FOUND\",\n    \"message\": \"Pet with the specified ID was not found\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Create Pet",
+          "description": "Creates a new pet in the store.",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Max\",\n  \"species\": \"dog\",\n  \"breed\": \"Labrador\",\n  \"age\": 2,\n  \"status\": \"available\",\n  \"tags\": [\"playful\", \"vaccinated\"]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pets",
+              "host": ["{{baseUrl}}"],
+              "path": ["pets"]
+            }
+          },
+          "response": [
+            {
+              "name": "Created",
+              "code": 201,
+              "status": "Created",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Location",
+                  "value": "/pets/456"
+                }
+              ],
+              "body": "{\n  \"id\": 456,\n  \"name\": \"Max\",\n  \"species\": \"dog\",\n  \"breed\": \"Labrador\",\n  \"age\": 2,\n  \"status\": \"available\",\n  \"tags\": [\"playful\", \"vaccinated\"],\n  \"createdAt\": \"2024-01-25T09:15:00Z\",\n  \"updatedAt\": \"2024-01-25T09:15:00Z\"\n}"
+            },
+            {
+              "name": "Bad Request - Validation Error",
+              "code": 400,
+              "status": "Bad Request",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"message\": \"Invalid request body\",\n    \"details\": [\n      {\n        \"field\": \"name\",\n        \"message\": \"Name is required\"\n      }\n    ]\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Pet",
+          "description": "Updates an existing pet's information.",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Buddy\",\n  \"species\": \"dog\",\n  \"breed\": \"Golden Retriever\",\n  \"age\": 4,\n  \"status\": \"adopted\",\n  \"tags\": [\"friendly\", \"trained\", \"adopted\"]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/pets/:petId",
+              "host": ["{{baseUrl}}"],
+              "path": ["pets", ":petId"],
+              "variable": [
+                {
+                  "key": "petId",
+                  "value": "123"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success - Pet updated",
+              "code": 200,
+              "status": "OK",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 123,\n  \"name\": \"Buddy\",\n  \"species\": \"dog\",\n  \"breed\": \"Golden Retriever\",\n  \"age\": 4,\n  \"status\": \"adopted\",\n  \"tags\": [\"friendly\", \"trained\", \"adopted\"],\n  \"createdAt\": \"2024-01-15T10:30:00Z\",\n  \"updatedAt\": \"2024-01-26T11:45:00Z\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Pet",
+          "description": "Removes a pet from the store.",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/pets/:petId",
+              "host": ["{{baseUrl}}"],
+              "path": ["pets", ":petId"],
+              "variable": [
+                {
+                  "key": "petId",
+                  "value": "123"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "No Content - Pet deleted",
+              "code": 204,
+              "status": "No Content",
+              "header": []
+            },
+            {
+              "name": "Not Found",
+              "code": 404,
+              "status": "Not Found",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"PET_NOT_FOUND\",\n    \"message\": \"Pet with the specified ID was not found\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Store",
+      "description": "Store inventory and order operations",
+      "item": [
+        {
+          "name": "Get Store Inventory",
+          "description": "Returns the current inventory counts by status.",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/store/inventory",
+              "host": ["{{baseUrl}}"],
+              "path": ["store", "inventory"]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "code": 200,
+              "status": "OK",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"available\": 25,\n  \"pending\": 5,\n  \"adopted\": 12\n}"
+            }
+          ]
+        },
+        {
+          "name": "Orders",
+          "description": "Order management",
+          "item": [
+            {
+              "name": "Place Order",
+              "description": "Places a new order for a pet.",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"petId\": 123,\n  \"quantity\": 1,\n  \"shipDate\": \"2024-02-01T10:00:00Z\",\n  \"status\": \"placed\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/store/orders",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["store", "orders"]
+                }
+              },
+              "response": [
+                {
+                  "name": "Order Placed",
+                  "code": 201,
+                  "status": "Created",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"id\": 789,\n  \"petId\": 123,\n  \"quantity\": 1,\n  \"shipDate\": \"2024-02-01T10:00:00Z\",\n  \"status\": \"placed\",\n  \"complete\": false\n}"
+                }
+              ]
+            },
+            {
+              "name": "Get Order",
+              "description": "Returns an order by ID.",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/store/orders/:orderId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["store", "orders", ":orderId"],
+                  "variable": [
+                    {
+                      "key": "orderId",
+                      "value": "789"
+                    }
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "Success",
+                  "code": 200,
+                  "status": "OK",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "body": "{\n  \"id\": 789,\n  \"petId\": 123,\n  \"quantity\": 1,\n  \"shipDate\": \"2024-02-01T10:00:00Z\",\n  \"status\": \"placed\",\n  \"complete\": false\n}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "description": "User account operations",
+      "item": [
+        {
+          "name": "Create User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "admin-jwt-token",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"johndoe\",\n  \"email\": \"john@example.com\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"phone\": \"+1-555-0123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"]
+            }
+          },
+          "response": [
+            {
+              "name": "User Created",
+              "code": 201,
+              "status": "Created",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 1001,\n  \"username\": \"johndoe\",\n  \"email\": \"john@example.com\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"phone\": \"+1-555-0123\",\n  \"status\": \"active\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "description": "Authenticates a user and returns a JWT token.",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"johndoe\",\n  \"password\": \"secret123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/users/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "login"]
+            }
+          },
+          "response": [
+            {
+              "name": "Login Successful",
+              "code": 200,
+              "status": "OK",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "X-Expires-After",
+                  "value": "2024-01-26T12:00:00Z"
+                }
+              ],
+              "body": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMDAxIiwidXNlcm5hbWUiOiJqb2huZG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c\",\n  \"expiresAt\": \"2024-01-26T12:00:00Z\"\n}"
+            },
+            {
+              "name": "Unauthorized",
+              "code": 401,
+              "status": "Unauthorized",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"INVALID_CREDENTIALS\",\n    \"message\": \"Invalid username or password\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
