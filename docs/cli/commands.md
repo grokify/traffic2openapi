@@ -14,6 +14,7 @@ go install github.com/grokify/traffic2openapi/cmd/traffic2openapi@latest
 |---------|-------------|
 | `generate` | Generate OpenAPI spec from IR files |
 | `convert har` | Convert HAR files to IR format |
+| `convert postman` | Convert Postman collections to IR format |
 | `validate` | Validate IR files |
 | `validate-spec` | Validate OpenAPI specification files |
 | `site` | Generate static HTML documentation site |
@@ -117,6 +118,57 @@ traffic2openapi convert har -i recording.har -o traffic.ndjson --method POST
 
 # Without headers
 traffic2openapi convert har -i recording.har -o traffic.ndjson --headers=false
+```
+
+## convert postman
+
+Convert Postman Collection v2.1 files to IR format.
+
+### Usage
+
+```bash
+traffic2openapi convert postman -i <input> -o <output> [flags]
+```
+
+### Flags
+
+| Flag | Short | Default | Description |
+|------|-------|---------|-------------|
+| `--input` | `-i` | (required) | Postman collection file |
+| `--output` | `-o` | (required) | Output IR file |
+| `--format` | `-f` | `ndjson` | Output format: `ndjson` or `json` |
+| `--base-url` | | | Base URL override |
+| `--var` | | | Variable substitution (key=value, repeatable) |
+| `--host` | | | Filter by host |
+| `--method` | | | Filter by HTTP method |
+| `--headers` | | `true` | Include headers |
+| `--auth` | | `true` | Include auth headers |
+| `--filter-headers` | | | Header patterns to exclude (comma-separated) |
+
+### Examples
+
+```bash
+# Basic conversion
+traffic2openapi convert postman -i collection.json -o traffic.ndjson
+
+# With variable substitution
+traffic2openapi convert postman -i collection.json -o traffic.ndjson \
+    --var baseUrl=https://api.example.com \
+    --var apiKey=sk-xxx
+
+# Output as batch JSON
+traffic2openapi convert postman -i collection.json -o traffic.json --format json
+
+# Filter by host
+traffic2openapi convert postman -i collection.json -o traffic.ndjson \
+    --host api.example.com
+
+# Skip authentication headers
+traffic2openapi convert postman -i collection.json -o traffic.ndjson --auth=false
+
+# Exclude certain header patterns
+traffic2openapi convert postman -i collection.json -o traffic.ndjson \
+    --filter-headers "X-Debug-*,X-Internal-*"
 ```
 
 ## validate
