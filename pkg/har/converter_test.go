@@ -55,7 +55,7 @@ func TestConverterBasic(t *testing.T) {
 		t.Errorf("expected api.example.com, got %v", record.Request.Host)
 	}
 
-	if record.Request.Scheme != ir.RequestSchemeHttps {
+	if record.Request.Scheme != ir.RequestSchemeHTTPS {
 		t.Errorf("expected https, got %s", record.Request.Scheme)
 	}
 
