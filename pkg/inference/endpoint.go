@@ -5,6 +5,16 @@ import (
 	"sync"
 )
 
+// RecordDocumentation holds documentation fields from an IR record.
+type RecordDocumentation struct {
+	OperationID  string
+	Summary      string
+	Description  string
+	Tags         []string
+	Deprecated   bool
+	ExternalDocs *ExternalDocsData
+}
+
 // EndpointClusterer groups IR records by endpoint (method + path template).
 type EndpointClusterer struct {
 	mu                 sync.RWMutex
@@ -34,7 +44,7 @@ func NewEndpointClusterer() *EndpointClusterer {
 func (c *EndpointClusterer) AddRecord(method, path string, pathTemplate string, pathParams map[string]string,
 	query map[string]any, headers map[string]string, requestBody any, requestContentType string,
 	status int, responseBody any, responseContentType string, responseHeaders map[string]string,
-	host string, scheme string) {
+	host string, scheme string, docs *RecordDocumentation) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
 
@@ -63,6 +73,28 @@ func (c *EndpointClusterer) AddRecord(method, path string, pathTemplate string, 
 	}
 
 	endpoint.RequestCount++
+
+	// Merge documentation (first non-empty value wins)
+	if docs != nil {
+		if endpoint.OperationID == "" && docs.OperationID != "" {
+			endpoint.OperationID = docs.OperationID
+		}
+		if endpoint.Summary == "" && docs.Summary != "" {
+			endpoint.Summary = docs.Summary
+		}
+		if endpoint.Description == "" && docs.Description != "" {
+			endpoint.Description = docs.Description
+		}
+		if len(endpoint.Tags) == 0 && len(docs.Tags) > 0 {
+			endpoint.Tags = docs.Tags
+		}
+		if docs.Deprecated {
+			endpoint.Deprecated = true
+		}
+		if endpoint.ExternalDocs == nil && docs.ExternalDocs != nil {
+			endpoint.ExternalDocs = docs.ExternalDocs
+		}
+	}
 
 	// Process path parameters
 	for name, value := range inferredParams {

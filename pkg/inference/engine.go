@@ -8,8 +8,9 @@ import (
 
 // Engine orchestrates the inference process.
 type Engine struct {
-	clusterer *EndpointClusterer
-	options   EngineOptions
+	clusterer   *EndpointClusterer
+	options     EngineOptions
+	apiMetadata *APIMetadataData
 }
 
 // EngineOptions configures the inference engine.
@@ -136,6 +137,37 @@ func (e *Engine) ProcessRecord(record *ir.IRRecord) {
 		scheme = "https"
 	}
 
+	// Extract documentation fields
+	var docs *RecordDocumentation
+	if record.OperationId != nil || record.Summary != nil || record.Description != nil ||
+		len(record.Tags) > 0 || (record.Deprecated != nil && *record.Deprecated) || record.ExternalDocs != nil {
+		docs = &RecordDocumentation{}
+		if record.OperationId != nil {
+			docs.OperationID = *record.OperationId
+		}
+		if record.Summary != nil {
+			docs.Summary = *record.Summary
+		}
+		if record.Description != nil {
+			docs.Description = *record.Description
+		}
+		if len(record.Tags) > 0 {
+			docs.Tags = record.Tags
+		}
+		if record.Deprecated != nil && *record.Deprecated {
+			docs.Deprecated = true
+		}
+		if record.ExternalDocs != nil {
+			docs.ExternalDocs = &ExternalDocsData{
+				URL:         record.ExternalDocs.URL,
+				Description: "",
+			}
+			if record.ExternalDocs.Description != nil {
+				docs.ExternalDocs.Description = *record.ExternalDocs.Description
+			}
+		}
+	}
+
 	// Add to clusterer
 	e.clusterer.AddRecord(
 		method,
@@ -152,13 +184,89 @@ func (e *Engine) ProcessRecord(record *ir.IRRecord) {
 		responseHeaders,
 		host,
 		scheme,
+		docs,
 	)
+}
+
+// SetAPIMetadata sets API-level metadata from IR batch metadata.
+func (e *Engine) SetAPIMetadata(metadata *APIMetadataData) {
+	e.apiMetadata = metadata
+}
+
+// SetAPIMetadataFromIR extracts API metadata from an IR APIMetadata struct.
+func (e *Engine) SetAPIMetadataFromIR(irMeta *ir.APIMetadata) {
+	if irMeta == nil {
+		return
+	}
+
+	meta := &APIMetadataData{}
+
+	if irMeta.Title != nil {
+		meta.Title = *irMeta.Title
+	}
+	if irMeta.Description != nil {
+		meta.Description = *irMeta.Description
+	}
+	if irMeta.APIVersion != nil {
+		meta.APIVersion = *irMeta.APIVersion
+	}
+	if irMeta.TermsOfService != nil {
+		meta.TermsOfService = *irMeta.TermsOfService
+	}
+	if irMeta.Contact != nil {
+		if irMeta.Contact.Name != nil {
+			meta.ContactName = *irMeta.Contact.Name
+		}
+		if irMeta.Contact.Email != nil {
+			meta.ContactEmail = *irMeta.Contact.Email
+		}
+		if irMeta.Contact.URL != nil {
+			meta.ContactURL = *irMeta.Contact.URL
+		}
+	}
+	if irMeta.License != nil {
+		meta.LicenseName = irMeta.License.Name
+		if irMeta.License.URL != nil {
+			meta.LicenseURL = *irMeta.License.URL
+		}
+	}
+	if irMeta.ExternalDocs != nil {
+		meta.ExternalDocs = &ExternalDocsData{
+			URL: irMeta.ExternalDocs.URL,
+		}
+		if irMeta.ExternalDocs.Description != nil {
+			meta.ExternalDocs.Description = *irMeta.ExternalDocs.Description
+		}
+	}
+
+	// Convert tag definitions
+	for _, td := range irMeta.TagDefinitions {
+		tagDef := TagDefinitionData{
+			Name: td.Name,
+		}
+		if td.Description != nil {
+			tagDef.Description = *td.Description
+		}
+		if td.ExternalDocs != nil {
+			tagDef.ExternalDocs = &ExternalDocsData{
+				URL: td.ExternalDocs.URL,
+			}
+			if td.ExternalDocs.Description != nil {
+				tagDef.ExternalDocs.Description = *td.ExternalDocs.Description
+			}
+		}
+		meta.TagDefinitions = append(meta.TagDefinitions, tagDef)
+	}
+
+	e.apiMetadata = meta
 }
 
 // Finalize completes the inference process.
 func (e *Engine) Finalize() *InferenceResult {
 	e.clusterer.Finalize()
-	return e.clusterer.GetResult()
+	result := e.clusterer.GetResult()
+	result.APIMetadata = e.apiMetadata
+	return result
 }
 
 // InferFromRecords is a convenience function that processes records and returns results.
