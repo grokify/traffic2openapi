@@ -6,4 +6,6 @@ coverage.txt
 debug.test
 main
 main.zip
-site/traffic2openapi
+site/
+traffic2openapi
+validation/
