@@ -2,12 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/grokify/traffic2openapi/schemas/ir.v1.schema.json",
   "title": "Traffic2OpenAPI IR v1",
-  "description": "Intermediate representation for HTTP traffic used to generate OpenAPI 3.1 specifications. Supports both single records (NDJSON) and batched arrays.",
+  "description": "Intermediate representation for HTTP API data used to generate OpenAPI 3.x specifications. Supports traffic captures, API collections (Postman, Insomnia), and documentation imports. Available in both streaming (NDJSON) and batch (JSON array) formats.",
 
   "$defs": {
     "IRRecord": {
       "type": "object",
-      "description": "A single HTTP request/response capture.",
+      "description": "A single HTTP request/response record with optional documentation metadata.",
       "required": ["request", "response"],
       "properties": {
         "id": {
@@ -21,7 +21,7 @@
         },
         "source": {
           "type": "string",
-          "enum": ["har", "playwright", "logging-transport", "proxy", "manual"],
+          "enum": ["har", "playwright", "logging-transport", "proxy", "manual", "postman", "insomnia", "openapi", "swagger"],
           "description": "Adapter/source that generated this record."
         },
         "request": {
@@ -34,6 +34,33 @@
           "type": "number",
           "minimum": 0,
           "description": "Round-trip time in milliseconds."
+        },
+        "operationId": {
+          "type": "string",
+          "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$",
+          "description": "Explicit operation identifier (e.g., getUserById). Must be valid identifier."
+        },
+        "summary": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "Short one-line summary of the operation."
+        },
+        "description": {
+          "type": "string",
+          "description": "Full description of the operation. Supports markdown."
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Tags for grouping operations (e.g., from Postman folders)."
+        },
+        "deprecated": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this operation is deprecated."
+        },
+        "externalDocs": {
+          "$ref": "#/$defs/ExternalDocs"
         }
       },
       "additionalProperties": false
@@ -143,6 +170,159 @@
         }
       },
       "additionalProperties": false
+    },
+
+    "ExternalDocs": {
+      "type": "object",
+      "description": "Reference to external documentation.",
+      "required": ["url"],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to external documentation."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the external documentation."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Contact": {
+      "type": "object",
+      "description": "Contact information for the API.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Contact name."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Contact URL."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Contact email."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "License": {
+      "type": "object",
+      "description": "License information for the API.",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "License name (e.g., MIT, Apache-2.0)."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the license text."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Server": {
+      "type": "object",
+      "description": "Server endpoint for the API.",
+      "required": ["url"],
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "Server URL. May contain variables in {braces}."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the server (e.g., Production, Staging)."
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "TagDefinition": {
+      "type": "object",
+      "description": "Tag definition with metadata.",
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Tag name."
+        },
+        "description": {
+          "type": "string",
+          "description": "Tag description. Supports markdown."
+        },
+        "externalDocs": {
+          "$ref": "#/$defs/ExternalDocs"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "APIMetadata": {
+      "type": "object",
+      "description": "API-level metadata for documentation generation.",
+      "properties": {
+        "generatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When this batch was generated."
+        },
+        "source": {
+          "type": "string",
+          "description": "Source system or adapter name."
+        },
+        "recordCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of records in this batch."
+        },
+        "title": {
+          "type": "string",
+          "description": "API title (e.g., Saviynt EIC API)."
+        },
+        "description": {
+          "type": "string",
+          "description": "API description. Supports markdown."
+        },
+        "apiVersion": {
+          "type": "string",
+          "description": "API version (e.g., 5.0.0). Distinct from IR schema version."
+        },
+        "termsOfService": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to terms of service."
+        },
+        "contact": {
+          "$ref": "#/$defs/Contact"
+        },
+        "license": {
+          "$ref": "#/$defs/License"
+        },
+        "servers": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Server" },
+          "description": "List of server endpoints."
+        },
+        "tagDefinitions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/TagDefinition" },
+          "description": "Tag definitions with descriptions (from Postman folders, etc.)."
+        },
+        "externalDocs": {
+          "$ref": "#/$defs/ExternalDocs"
+        }
+      },
+      "additionalProperties": true
     }
   },
 
@@ -163,32 +343,14 @@
         },
         "records": {
           "type": "array",
-          "description": "List of captured HTTP request/response records.",
+          "description": "List of HTTP request/response records.",
           "items": {
             "$ref": "#/$defs/IRRecord"
           },
           "minItems": 1
         },
         "metadata": {
-          "type": "object",
-          "description": "Optional batch-level metadata.",
-          "properties": {
-            "generatedAt": {
-              "type": "string",
-              "format": "date-time",
-              "description": "When this batch was generated."
-            },
-            "source": {
-              "type": "string",
-              "description": "Source system or adapter name."
-            },
-            "recordCount": {
-              "type": "integer",
-              "minimum": 0,
-              "description": "Number of records in this batch."
-            }
-          },
-          "additionalProperties": true
+          "$ref": "#/$defs/APIMetadata"
         }
       },
       "additionalProperties": false

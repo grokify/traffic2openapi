@@ -268,9 +268,9 @@ func (t *LoggingTransport) captureRequest(req *http.Request) (Request, []byte) {
 		scheme = "https"
 	}
 	if scheme == "https" {
-		irReq.Scheme = RequestSchemeHttps
+		irReq.Scheme = RequestSchemeHTTPS
 	} else {
-		irReq.Scheme = RequestSchemeHttp
+		irReq.Scheme = RequestSchemeHTTP
 	}
 
 	// Host
