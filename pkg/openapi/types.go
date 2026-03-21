@@ -3,20 +3,36 @@ package openapi
 
 // Spec represents an OpenAPI 3.x specification.
 type Spec struct {
-	OpenAPI    string               `json:"openapi" yaml:"openapi"`
-	Info       Info                 `json:"info" yaml:"info"`
-	Servers    []Server             `json:"servers,omitempty" yaml:"servers,omitempty"`
-	Paths      map[string]*PathItem `json:"paths" yaml:"paths"`
-	Components *Components          `json:"components,omitempty" yaml:"components,omitempty"`
+	OpenAPI      string               `json:"openapi" yaml:"openapi"`
+	Info         Info                 `json:"info" yaml:"info"`
+	Servers      []Server             `json:"servers,omitempty" yaml:"servers,omitempty"`
+	Paths        map[string]*PathItem `json:"paths" yaml:"paths"`
+	Components   *Components          `json:"components,omitempty" yaml:"components,omitempty"`
+	Tags         []Tag                `json:"tags,omitempty" yaml:"tags,omitempty"`
+	ExternalDocs *ExternalDocs        `json:"externalDocs,omitempty" yaml:"externalDocs,omitempty"`
+}
+
+// Tag represents a tag for grouping operations.
+type Tag struct {
+	Name         string        `json:"name" yaml:"name"`
+	Description  string        `json:"description,omitempty" yaml:"description,omitempty"`
+	ExternalDocs *ExternalDocs `json:"externalDocs,omitempty" yaml:"externalDocs,omitempty"`
+}
+
+// ExternalDocs represents external documentation.
+type ExternalDocs struct {
+	URL         string `json:"url" yaml:"url"`
+	Description string `json:"description,omitempty" yaml:"description,omitempty"`
 }
 
 // Info provides metadata about the API.
 type Info struct {
-	Title       string   `json:"title" yaml:"title"`
-	Description string   `json:"description,omitempty" yaml:"description,omitempty"`
-	Version     string   `json:"version" yaml:"version"`
-	Contact     *Contact `json:"contact,omitempty" yaml:"contact,omitempty"`
-	License     *License `json:"license,omitempty" yaml:"license,omitempty"`
+	Title          string   `json:"title" yaml:"title"`
+	Description    string   `json:"description,omitempty" yaml:"description,omitempty"`
+	TermsOfService string   `json:"termsOfService,omitempty" yaml:"termsOfService,omitempty"`
+	Contact        *Contact `json:"contact,omitempty" yaml:"contact,omitempty"`
+	License        *License `json:"license,omitempty" yaml:"license,omitempty"`
+	Version        string   `json:"version" yaml:"version"`
 }
 
 // Contact information for the API.

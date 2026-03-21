@@ -47,14 +47,51 @@ func NewGenerator(options GeneratorOptions) *Generator {
 
 // Generate creates an OpenAPI spec from inference results.
 func (g *Generator) Generate(result *inference.InferenceResult) *Spec {
+	// Use API metadata from inference if available, fallback to options
+	title := g.options.Title
+	description := g.options.Description
+	apiVersion := g.options.APIVersion
+
+	if result.APIMetadata != nil {
+		if result.APIMetadata.Title != "" {
+			title = result.APIMetadata.Title
+		}
+		if result.APIMetadata.Description != "" {
+			description = result.APIMetadata.Description
+		}
+		if result.APIMetadata.APIVersion != "" {
+			apiVersion = result.APIMetadata.APIVersion
+		}
+	}
+
 	spec := &Spec{
 		OpenAPI: string(g.options.Version),
 		Info: Info{
-			Title:       g.options.Title,
-			Description: g.options.Description,
-			Version:     g.options.APIVersion,
+			Title:       title,
+			Description: description,
+			Version:     apiVersion,
 		},
 		Paths: make(map[string]*PathItem),
+	}
+
+	// Add additional info fields from API metadata
+	if result.APIMetadata != nil {
+		if result.APIMetadata.TermsOfService != "" {
+			spec.Info.TermsOfService = result.APIMetadata.TermsOfService
+		}
+		if result.APIMetadata.ContactName != "" || result.APIMetadata.ContactEmail != "" || result.APIMetadata.ContactURL != "" {
+			spec.Info.Contact = &Contact{
+				Name:  result.APIMetadata.ContactName,
+				Email: result.APIMetadata.ContactEmail,
+				URL:   result.APIMetadata.ContactURL,
+			}
+		}
+		if result.APIMetadata.LicenseName != "" {
+			spec.Info.License = &License{
+				Name: result.APIMetadata.LicenseName,
+				URL:  result.APIMetadata.LicenseURL,
+			}
+		}
 	}
 
 	// Add servers
@@ -112,6 +149,31 @@ func (g *Generator) Generate(result *inference.InferenceResult) *Spec {
 		g.addEndpoint(spec, endpoint, securityKeys)
 	}
 
+	// Add tag definitions from API metadata
+	if result.APIMetadata != nil && len(result.APIMetadata.TagDefinitions) > 0 {
+		for _, td := range result.APIMetadata.TagDefinitions {
+			tag := Tag{
+				Name:        td.Name,
+				Description: td.Description,
+			}
+			if td.ExternalDocs != nil {
+				tag.ExternalDocs = &ExternalDocs{
+					URL:         td.ExternalDocs.URL,
+					Description: td.ExternalDocs.Description,
+				}
+			}
+			spec.Tags = append(spec.Tags, tag)
+		}
+	}
+
+	// Add external docs from API metadata
+	if result.APIMetadata != nil && result.APIMetadata.ExternalDocs != nil {
+		spec.ExternalDocs = &ExternalDocs{
+			URL:         result.APIMetadata.ExternalDocs.URL,
+			Description: result.APIMetadata.ExternalDocs.Description,
+		}
+	}
+
 	return spec
 }
 
@@ -152,11 +214,37 @@ func (g *Generator) addEndpoint(spec *Spec, endpoint *inference.EndpointData, se
 
 // createOperation creates an Operation from endpoint data.
 func (g *Generator) createOperation(endpoint *inference.EndpointData, securityKeys []string) *Operation {
+	// Use documentation from endpoint if available, otherwise generate
+	summary := endpoint.Summary
+	if summary == "" {
+		summary = fmt.Sprintf("%s %s", endpoint.Method, endpoint.PathTemplate)
+	}
+
+	operationID := endpoint.OperationID
+	if operationID == "" {
+		operationID = generateOperationID(endpoint.Method, endpoint.PathTemplate)
+	}
+
 	op := &Operation{
-		Summary:     fmt.Sprintf("%s %s", endpoint.Method, endpoint.PathTemplate),
-		OperationID: generateOperationID(endpoint.Method, endpoint.PathTemplate),
+		Summary:     summary,
+		OperationID: operationID,
 		Parameters:  make([]Parameter, 0),
 		Responses:   make(map[string]Response),
+	}
+
+	// Add description if available
+	if endpoint.Description != "" {
+		op.Description = endpoint.Description
+	}
+
+	// Add tags if available
+	if len(endpoint.Tags) > 0 {
+		op.Tags = endpoint.Tags
+	}
+
+	// Add deprecated flag if set
+	if endpoint.Deprecated {
+		op.Deprecated = true
 	}
 
 	// Add security requirements if any were detected
