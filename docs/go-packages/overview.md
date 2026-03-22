@@ -7,6 +7,8 @@ The `traffic2openapi` module provides several packages for working with HTTP tra
 ```
 pkg/
 ├── ir/                  # IR types, providers, readers, writers
+├── har/                 # HAR file parsing and conversion
+├── postman/             # Postman collection conversion
 ├── inference/           # Traffic analysis and schema inference
 └── openapi/             # OpenAPI spec generation
 ```
@@ -40,6 +42,42 @@ See:
 
 - [Provider Pattern](providers.md) - Detailed provider documentation
 - [LoggingTransport](logging-transport.md) - HTTP client traffic capture
+
+## pkg/har
+
+The `har` package parses HAR (HTTP Archive) files and converts them to IR format.
+
+### Key Features
+
+- **HAR Parsing**: Parse HAR 1.2 format files
+- **IR Conversion**: Convert HAR entries to IR records
+- **Filtering**: Filter by host, method, or status code
+- **Header Control**: Include/exclude headers
+
+```go
+import "github.com/grokify/traffic2openapi/pkg/har"
+
+records, err := har.ConvertFile(ctx, "recording.har", nil)
+```
+
+## pkg/postman
+
+The `postman` package converts Postman Collection v2.1 files to IR format.
+
+### Key Features
+
+- **Collection Parsing**: Parse Postman Collection v2.1 format
+- **Path Parameters**: Convert `:id` to `{id}` format
+- **Authentication**: Extract bearer, basic, and API key auth
+- **Documentation**: Preserve collection metadata and descriptions
+
+```go
+import "github.com/grokify/traffic2openapi/pkg/postman"
+
+records, metadata, err := postman.ConvertFile(ctx, "collection.json", nil)
+```
+
+See [Postman Converter](postman.md) for details.
 
 ## pkg/inference
 
