@@ -6,6 +6,36 @@
   "commitConvention": "conventional",
   "releases": [
     {
+      "version": "v0.3.0",
+      "date": "2026-03-21",
+      "highlights": [
+        { "description": "Postman Collection v2.1 converter for generating OpenAPI specs from Postman collections" },
+        { "description": "Extended IR schema with documentation fields for preserving API metadata" },
+        { "description": "Enhanced inference engine with documentation support" }
+      ],
+      "added": [
+        { "description": "`pkg/postman` package for Postman Collection v2.1 to IR conversion", "commit": "7f07afb" },
+        { "description": "`convert postman` CLI command for converting Postman collections", "commit": "6af4c9c" },
+        { "description": "IR schema documentation fields: `Documentation`, `APIMetadata`, `Tags`", "commit": "2549218" },
+        { "description": "Documentation support in inference engine for operation summaries and descriptions", "commit": "06ff7b8" },
+        { "description": "OpenAPI generator uses IR documentation fields for enhanced spec output", "commit": "e42284e" },
+        { "description": "Path parameter conversion (`:id` → `{id}`) for Postman collections", "commit": "7f07afb" },
+        { "description": "Authentication extraction (bearer, basic, API key) from Postman collections", "commit": "7f07afb" }
+      ],
+      "changed": [
+        { "description": "HAR converter updated for IR schema changes", "commit": "8cd7c35" }
+      ],
+      "documentation": [
+        { "description": "`docs/go-packages/postman.md` with Postman converter usage guide", "commit": "15a2f3b" },
+        { "description": "`docs/adapters/postman.md` with CLI examples and feature matrix", "commit": "15a2f3b" },
+        { "description": "Updated CLI commands documentation with Postman convert options", "commit": "15a2f3b" }
+      ],
+      "dependencies": [
+        { "description": "Add `github.com/rbretecher/go-postman-collection` v0.9.0", "commit": "d3dfee0" },
+        { "description": "Update `github.com/pb33f/libopenapi` from v0.34.2 to v0.34.3", "commit": "8a95025" }
+      ]
+    },
+    {
       "version": "v0.2.0",
       "date": "2026-03-14",
       "highlights": [
