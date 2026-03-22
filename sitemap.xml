@@ -2,74 +2,82 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://grokify.github.io/traffic2openapi/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/adapters/browser/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/adapters/har/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/adapters/overview/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
+    </url>
+    <url>
+         <loc>https://grokify.github.io/traffic2openapi/adapters/postman/</loc>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/api/ir/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/cli/commands/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/concepts/architecture/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/concepts/ir-format/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/getting-started/installation/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/getting-started/quickstart/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/go-packages/builder/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/go-packages/inference/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/go-packages/logging-transport/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/go-packages/openapi/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/go-packages/overview/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
+    </url>
+    <url>
+         <loc>https://grokify.github.io/traffic2openapi/go-packages/postman/</loc>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/go-packages/providers/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/releases/v0.1.0/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
     <url>
          <loc>https://grokify.github.io/traffic2openapi/releases/v0.2.0/</loc>
-         <lastmod>2026-03-14</lastmod>
+         <lastmod>2026-03-22</lastmod>
     </url>
 </urlset>
