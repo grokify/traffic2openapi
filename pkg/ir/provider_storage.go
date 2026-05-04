@@ -3,7 +3,7 @@ package ir
 import (
 	"context"
 
-	"github.com/grokify/omnistorage"
+	"github.com/plexusone/omnistorage"
 )
 
 // StorageProvider provides symmetric read/write access to IR records
