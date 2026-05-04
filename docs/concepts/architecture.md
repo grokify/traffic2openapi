@@ -113,15 +113,19 @@ Converts inference results to OpenAPI 3.0/3.1/3.2 specifications:
 
 ### With omnistorage
 
-The StorageProvider integrates with [omnistorage](https://github.com/grokify/omnistorage) for cloud storage:
+The StorageProvider integrates with [omnistorage](https://github.com/plexusone/omnistorage) for cloud storage:
 
 ```go
 import (
-    "github.com/grokify/omnistorage/backend/s3"
+    "github.com/plexusone/omnistorage"
     "github.com/grokify/traffic2openapi/pkg/ir"
 )
 
-backend, _ := s3.New(ctx, s3.Config{...})
+// Use registry pattern - all backends auto-registered
+backend, _ := omnistorage.Open("s3", map[string]string{
+    "bucket": "my-bucket",
+    "region": "us-east-1",
+})
 provider := ir.Storage(backend)
 writer, _ := provider.NewWriter(ctx, "records.ndjson.gz")
 ```
