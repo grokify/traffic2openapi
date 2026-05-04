@@ -43,7 +43,7 @@ import (
 For cloud storage integration:
 
 ```bash
-go get github.com/grokify/omnistorage
+go get github.com/plexusone/omnistorage
 ```
 
 This enables storing and reading IR records from various cloud storage backends (S3, GCS, Azure Blob, etc.).

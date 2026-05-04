@@ -163,14 +163,14 @@ openapi.WriteFile("openapi.yaml", spec)
 
 ```go
 import (
-    "github.com/grokify/omnistorage/backend/s3"
+    "github.com/plexusone/omnistorage"
     "github.com/grokify/traffic2openapi/pkg/ir"
 )
 
-// Setup S3 backend
-backend, _ := s3.New(ctx, s3.Config{
-    Bucket: "my-bucket",
-    Region: "us-east-1",
+// Setup S3 backend (using registry pattern)
+backend, _ := omnistorage.Open("s3", map[string]string{
+    "bucket": "my-bucket",
+    "region": "us-east-1",
 })
 defer backend.Close()
 
