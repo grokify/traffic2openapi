@@ -6,6 +6,29 @@
   "commitConvention": "conventional",
   "releases": [
     {
+      "version": "v0.4.0",
+      "date": "2026-05-04",
+      "highlights": [
+        { "description": "Migrate omnistorage dependency to plexusone namespace with registry pattern support" }
+      ],
+      "changed": [
+        { "description": "**BREAKING**: Replace `github.com/grokify/omnistorage` with `github.com/plexusone/omnistorage` and `github.com/plexusone/omnistorage-core`", "commit": "8fea2d2" },
+        { "description": "Use `omnistorage.Open()` registry pattern for dynamic backend creation instead of direct package imports", "commit": "8fea2d2" }
+      ],
+      "tests": [
+        { "description": "Update storage tests to use `omnistorage.Open()` registry pattern", "commit": "cb25750" }
+      ],
+      "documentation": [
+        { "description": "Update omnistorage examples in docs to use registry pattern", "commit": "0a09cbf" }
+      ],
+      "dependencies": [
+        { "description": "Add `github.com/plexusone/omnistorage` v0.2.0 (replaces grokify/omnistorage)", "commit": "8fea2d2" },
+        { "description": "Add `github.com/plexusone/omnistorage-core` v0.4.0 for compress/gzip and format/ndjson utilities", "commit": "8fea2d2" },
+        { "description": "Update `github.com/pb33f/libopenapi` from v0.34.3 to v0.36.3", "commit": "17b1535" },
+        { "description": "Update `github.com/fsnotify/fsnotify` from v1.9.0 to v1.10.0", "commit": "b66e297" }
+      ]
+    },
+    {
       "version": "v0.3.0",
       "date": "2026-03-21",
       "highlights": [
