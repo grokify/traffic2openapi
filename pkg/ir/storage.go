@@ -7,9 +7,9 @@ import (
 	"io"
 	"strings"
 
-	"github.com/grokify/omnistorage"
-	"github.com/grokify/omnistorage/compress/gzip"
-	"github.com/grokify/omnistorage/format/ndjson"
+	"github.com/plexusone/omnistorage"
+	"github.com/plexusone/omnistorage-core/object/compress/gzip"
+	"github.com/plexusone/omnistorage-core/object/format/ndjson"
 )
 
 // StorageWriter writes IR records to an omnistorage backend.
