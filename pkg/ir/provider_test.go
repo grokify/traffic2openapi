@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/grokify/omnistorage/backend/file"
+	"github.com/plexusone/omnistorage"
 )
 
 // testRecords creates a set of test records.
@@ -112,7 +112,10 @@ func TestGzipNDJSONProviderWithLevel(t *testing.T) {
 func TestStorageProvider(t *testing.T) {
 	tmpDir := t.TempDir()
 
-	backend := file.New(file.Config{Root: tmpDir})
+	backend, err := omnistorage.Open("file", map[string]string{"root": tmpDir})
+	if err != nil {
+		t.Fatalf("omnistorage.Open failed: %v", err)
+	}
 	defer func() { _ = backend.Close() }()
 
 	provider := Storage(backend)
