@@ -4,7 +4,7 @@ go 1.26.0
 
 require (
 	github.com/chromedp/cdproto v0.0.0-20260427013145-5737772c319b
-	github.com/fsnotify/fsnotify v1.10.0
+	github.com/fsnotify/fsnotify v1.10.1
 	github.com/google/uuid v1.6.0
 	github.com/pb33f/libopenapi v0.36.3
 	github.com/plexusone/omnistorage v0.2.0
