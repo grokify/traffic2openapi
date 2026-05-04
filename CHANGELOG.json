@@ -9,7 +9,7 @@
       "version": "v0.4.0",
       "date": "2026-05-04",
       "highlights": [
-        { "description": "Migrate omnistorage dependency to plexusone namespace with registry pattern support" }
+        { "description": "Expanded storage backend support with S3, GCS, Google Drive, GitHub Releases, and Dropbox via omnistorage registry pattern" }
       ],
       "changed": [
         { "description": "Use `omnistorage.Open()` registry pattern for dynamic backend creation instead of direct package imports", "commit": "8fea2d2" }
