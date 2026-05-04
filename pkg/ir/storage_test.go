@@ -5,13 +5,16 @@ import (
 	"io"
 	"testing"
 
-	"github.com/grokify/omnistorage/backend/file"
+	"github.com/plexusone/omnistorage"
 )
 
 func TestStorageWriterReader(t *testing.T) {
 	tmpDir := t.TempDir()
 
-	backend := file.New(file.Config{Root: tmpDir})
+	backend, err := omnistorage.Open("file", map[string]string{"root": tmpDir})
+	if err != nil {
+		t.Fatalf("omnistorage.Open failed: %v", err)
+	}
 	defer func() { _ = backend.Close() }()
 
 	ctx := context.Background()
@@ -148,7 +151,10 @@ func TestStorageWriterReader(t *testing.T) {
 func TestStorageWriterFlush(t *testing.T) {
 	tmpDir := t.TempDir()
 
-	backend := file.New(file.Config{Root: tmpDir})
+	backend, err := omnistorage.Open("file", map[string]string{"root": tmpDir})
+	if err != nil {
+		t.Fatalf("omnistorage.Open failed: %v", err)
+	}
 	defer func() { _ = backend.Close() }()
 
 	ctx := context.Background()
@@ -177,12 +183,15 @@ func TestStorageWriterFlush(t *testing.T) {
 func TestStorageReaderNotFound(t *testing.T) {
 	tmpDir := t.TempDir()
 
-	backend := file.New(file.Config{Root: tmpDir})
+	backend, err := omnistorage.Open("file", map[string]string{"root": tmpDir})
+	if err != nil {
+		t.Fatalf("omnistorage.Open failed: %v", err)
+	}
 	defer func() { _ = backend.Close() }()
 
 	ctx := context.Background()
 
-	_, err := NewStorageReader(ctx, backend, "nonexistent.ndjson")
+	_, err = NewStorageReader(ctx, backend, "nonexistent.ndjson")
 	if err == nil {
 		t.Error("Expected error for nonexistent file")
 	}
@@ -191,7 +200,10 @@ func TestStorageReaderNotFound(t *testing.T) {
 func TestStorageReaderLineNumber(t *testing.T) {
 	tmpDir := t.TempDir()
 
-	backend := file.New(file.Config{Root: tmpDir})
+	backend, err := omnistorage.Open("file", map[string]string{"root": tmpDir})
+	if err != nil {
+		t.Fatalf("omnistorage.Open failed: %v", err)
+	}
 	defer func() { _ = backend.Close() }()
 
 	ctx := context.Background()
