@@ -6,7 +6,7 @@ require (
 	github.com/chromedp/cdproto v0.0.0-20260427013145-5737772c319b
 	github.com/fsnotify/fsnotify v1.10.1
 	github.com/google/uuid v1.6.0
-	github.com/pb33f/libopenapi v0.38.1
+	github.com/pb33f/libopenapi v0.38.2
 	github.com/plexusone/omnistorage v0.2.0
 	github.com/plexusone/omnistorage-core v0.5.0
 	github.com/rbretecher/go-postman-collection v0.9.0
