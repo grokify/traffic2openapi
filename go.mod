@@ -7,7 +7,7 @@ require (
 	github.com/fsnotify/fsnotify v1.10.1
 	github.com/google/uuid v1.6.0
 	github.com/pb33f/libopenapi v0.38.3
-	github.com/plexusone/omnistorage v0.2.0
+	github.com/plexusone/omnistorage v0.3.0
 	github.com/plexusone/omnistorage-core v0.5.0
 	github.com/rbretecher/go-postman-collection v0.9.0
 	github.com/spf13/cobra v1.10.2
@@ -55,12 +55,12 @@ require (
 	github.com/go-jose/go-jose/v4 v4.1.4 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
-	github.com/google/go-github/v84 v84.0.0 // indirect
+	github.com/google/go-github/v88 v88.0.0 // indirect
 	github.com/google/go-querystring v1.2.0 // indirect
 	github.com/google/s2a-go v0.1.9 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.16 // indirect
 	github.com/googleapis/gax-go/v2 v2.22.0 // indirect
-	github.com/grokify/gogithub v0.12.1 // indirect
+	github.com/grokify/gogithub v0.13.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/kr/fs v0.1.0 // indirect
 	github.com/pb33f/jsonpath v0.8.2 // indirect
@@ -68,7 +68,7 @@ require (
 	github.com/pkg/sftp v1.13.10 // indirect
 	github.com/planetscale/vtprotobuf v0.6.1-0.20240319094008-0393e58bdf10 // indirect
 	github.com/plexusone/omni-aws v0.8.2 // indirect
-	github.com/plexusone/omni-github v0.3.0 // indirect
+	github.com/plexusone/omni-github v0.3.1 // indirect
 	github.com/plexusone/omni-google v0.6.1 // indirect
 	github.com/spf13/pflag v1.0.10 // indirect
 	github.com/spiffe/go-spiffe/v2 v2.8.1 // indirect
