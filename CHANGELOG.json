@@ -6,25 +6,43 @@
   "commitConvention": "conventional",
   "releases": [
     {
+      "version": "v0.4.1",
+      "date": "2026-10-14",
+      "fixed": [
+        { "description": "Adapt HAR converter to `chromedp/cdproto` v0.158, where `Content.Text` is `[]byte` and base64 content is decoded on unmarshal", "commit": "9372418" }
+      ],
+      "documentation": [
+        { "description": "Fix license link in README to point at the `main` branch", "commit": "2412829" }
+      ],
+      "dependencies": [
+        { "description": "Update `github.com/pb33f/libopenapi` from v0.36.3 to v0.41.6", "commit": "e9f8c2f" },
+        { "description": "Update `github.com/plexusone/omnistorage` from v0.2.0 to v0.3.0", "commit": "2a8d0a9" },
+        { "description": "Update `github.com/plexusone/omnistorage-core` to v0.5.2", "commit": "fb4c606" },
+        { "description": "Update `github.com/chromedp/cdproto` to v0.158.0", "commit": "9372418" },
+        { "description": "Update `github.com/fsnotify/fsnotify` from v1.10.0 to v1.10.1", "commit": "ee5a223" },
+        { "description": "Update GitHub Actions `actions/checkout`, `actions/setup-node` and `actions/setup-python` to v7", "commit": "b819ebf" }
+      ]
+    },
+    {
       "version": "v0.4.0",
       "date": "2026-05-04",
       "highlights": [
         { "description": "Expanded storage backend support with S3, GCS, Google Drive, GitHub Releases, and Dropbox via omnistorage registry pattern" }
       ],
       "changed": [
-        { "description": "Use `omnistorage.Open()` registry pattern for dynamic backend creation instead of direct package imports", "commit": "8fea2d2" }
+        { "description": "Use `omnistorage.Open()` registry pattern for dynamic backend creation instead of direct package imports", "commit": "a87c295" }
       ],
       "tests": [
-        { "description": "Update storage tests to use `omnistorage.Open()` registry pattern", "commit": "cb25750" }
+        { "description": "Update storage tests to use `omnistorage.Open()` registry pattern", "commit": "8d66c14" }
       ],
       "documentation": [
-        { "description": "Update omnistorage examples in docs to use registry pattern", "commit": "0a09cbf" }
+        { "description": "Update omnistorage examples in docs to use registry pattern", "commit": "cba5390" }
       ],
       "dependencies": [
-        { "description": "Migrate from `github.com/grokify/omnistorage` to `github.com/plexusone/omnistorage` v0.2.0", "commit": "8fea2d2" },
-        { "description": "Add `github.com/plexusone/omnistorage-core` v0.4.0 for compress/gzip and format/ndjson utilities", "commit": "8fea2d2" },
-        { "description": "Update `github.com/pb33f/libopenapi` from v0.34.3 to v0.36.3", "commit": "17b1535" },
-        { "description": "Update `github.com/fsnotify/fsnotify` from v1.9.0 to v1.10.0", "commit": "b66e297" }
+        { "description": "Migrate from `github.com/grokify/omnistorage` to `github.com/plexusone/omnistorage` v0.2.0", "commit": "a87c295" },
+        { "description": "Add `github.com/plexusone/omnistorage-core` v0.4.0 for compress/gzip and format/ndjson utilities", "commit": "a87c295" },
+        { "description": "Update `github.com/pb33f/libopenapi` from v0.34.3 to v0.36.3", "commit": "bf30154" },
+        { "description": "Update `github.com/fsnotify/fsnotify` from v1.9.0 to v1.10.0", "commit": "869d8f0" }
       ]
     },
     {
@@ -36,24 +54,24 @@
         { "description": "Enhanced inference engine with documentation support" }
       ],
       "added": [
-        { "description": "`pkg/postman` package for Postman Collection v2.1 to IR conversion", "commit": "7f07afb" },
-        { "description": "`convert postman` CLI command for converting Postman collections", "commit": "6af4c9c" },
-        { "description": "IR schema documentation fields: `Documentation`, `APIMetadata`, `Tags`", "commit": "2549218" },
-        { "description": "Documentation support in inference engine for operation summaries and descriptions", "commit": "06ff7b8" },
-        { "description": "OpenAPI generator uses IR documentation fields for enhanced spec output", "commit": "e42284e" },
-        { "description": "Path parameter conversion (`:id` → `{id}`) for Postman collections", "commit": "7f07afb" },
-        { "description": "Authentication extraction (bearer, basic, API key) from Postman collections", "commit": "7f07afb" }
+        { "description": "`pkg/postman` package for Postman Collection v2.1 to IR conversion", "commit": "eca5716" },
+        { "description": "`convert postman` CLI command for converting Postman collections", "commit": "53a7fc5" },
+        { "description": "IR schema documentation fields: `Documentation`, `APIMetadata`, `Tags`", "commit": "d960d48" },
+        { "description": "Documentation support in inference engine for operation summaries and descriptions", "commit": "d04f010" },
+        { "description": "OpenAPI generator uses IR documentation fields for enhanced spec output", "commit": "5b9f6a8" },
+        { "description": "Path parameter conversion (`:id` → `{id}`) for Postman collections", "commit": "eca5716" },
+        { "description": "Authentication extraction (bearer, basic, API key) from Postman collections", "commit": "eca5716" }
       ],
       "changed": [
-        { "description": "HAR converter updated for IR schema changes", "commit": "8cd7c35" }
+        { "description": "HAR converter updated for IR schema changes", "commit": "0cbeb6a" }
       ],
       "documentation": [
-        { "description": "`docs/go-packages/postman.md` with Postman converter usage guide", "commit": "15a2f3b" },
-        { "description": "`docs/adapters/postman.md` with CLI examples and feature matrix", "commit": "15a2f3b" },
-        { "description": "Updated CLI commands documentation with Postman convert options", "commit": "15a2f3b" }
+        { "description": "`docs/go-packages/postman.md` with Postman converter usage guide", "commit": "2adac4b" },
+        { "description": "`docs/adapters/postman.md` with CLI examples and feature matrix", "commit": "2adac4b" },
+        { "description": "Updated CLI commands documentation with Postman convert options", "commit": "2adac4b" }
       ],
       "dependencies": [
-        { "description": "Add `github.com/rbretecher/go-postman-collection` v0.9.0", "commit": "d3dfee0" },
+        { "description": "Add `github.com/rbretecher/go-postman-collection` v0.9.0", "commit": "b8a7df3" },
         { "description": "Update `github.com/pb33f/libopenapi` from v0.34.2 to v0.34.3", "commit": "8a95025" }
       ]
     },
