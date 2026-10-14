@@ -138,11 +138,13 @@ func (c *Converter) Convert(entry *har.Entry) *ir.IRRecord {
 	}
 
 	// Convert response body
-	if entry.Response.Content != nil && entry.Response.Content.Text != "" {
+	if entry.Response.Content != nil && len(entry.Response.Content.Text) > 0 {
+		// cdproto >= 0.158 decodes base64 content during unmarshal, so Text
+		// already holds the decoded bytes and no encoding is passed on.
 		record.Response.Body = parseBody(
-			entry.Response.Content.Text,
+			string(entry.Response.Content.Text),
 			entry.Response.Content.MimeType,
-			entry.Response.Content.Encoding,
+			"",
 		)
 		if record.Response.ContentType == nil && entry.Response.Content.MimeType != "" {
 			record.Response.ContentType = ptrString(entry.Response.Content.MimeType)

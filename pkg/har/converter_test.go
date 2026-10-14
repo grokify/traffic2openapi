@@ -32,7 +32,7 @@ func TestConverterBasic(t *testing.T) {
 			},
 			Content: &har.Content{
 				MimeType: "application/json",
-				Text:     `{"users":[],"total":0}`,
+				Text:     []byte(`{"users":[],"total":0}`),
 			},
 		},
 	}
@@ -148,14 +148,14 @@ func TestConverterWithPostData(t *testing.T) {
 			URL:    "https://api.example.com/users",
 			PostData: &har.PostData{
 				MimeType: "application/json",
-				Text:     `{"name":"Alice","email":"alice@example.com"}`,
+				Text:     (`{"name":"Alice","email":"alice@example.com"}`),
 			},
 		},
 		Response: &har.Response{
 			Status: 201,
 			Content: &har.Content{
 				MimeType: "application/json",
-				Text:     `{"id":"123","name":"Alice"}`,
+				Text:     []byte(`{"id":"123","name":"Alice"}`),
 			},
 		},
 	}
@@ -204,8 +204,8 @@ func TestConverterBase64Body(t *testing.T) {
 			Status: 200,
 			Content: &har.Content{
 				MimeType: "application/json",
-				Text:     "eyJtZXNzYWdlIjoiaGVsbG8ifQ==",
-				Encoding: "base64",
+				// cdproto decodes base64 content on unmarshal, so Text is already decoded.
+				Text: []byte(`{"message":"hello"}`),
 			},
 		},
 	}
