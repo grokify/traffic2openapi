@@ -20,7 +20,7 @@
  [loc-svg]: https://tokei.rs/b1/github/grokify/traffic2openapi
  [repo-url]: https://github.com/grokify/traffic2openapi
  [license-svg]: https://img.shields.io/badge/license-MIT-blue.svg
- [license-url]: https://github.com/grokify/traffic2openapi/blob/master/LICENSE
+ [license-url]: https://github.com/grokify/traffic2openapi/blob/main/LICENSE
 
 Generate OpenAPI 3.0/3.1/3.2 specifications from HTTP traffic logs.
 
