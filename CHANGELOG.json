@@ -9,15 +9,20 @@
       "version": "v0.4.2",
       "date": "2026-10-14",
       "highlights": [
-        { "description": "Browser adapter fixes: TypeScript NDJSON and gzip writers now flush and close reliably, and Python path-pattern exclusion works for patterns that are not anchored at the start of the path" }
+        { "description": "Browser adapter fixes: TypeScript NDJSON and gzip writers now flush and close reliably, and the Python package imports correctly and its path-pattern exclusion works for patterns that are not anchored at the start of the path" }
       ],
       "fixed": [
+        { "description": "Python Playwright adapter: the package `__init__.py` was never committed (it matched an ignore rule), so `from traffic2openapi_playwright import PlaywrightCapture` failed from a checkout; it is now tracked", "commit": "40fe8a1" },
+        { "description": "Python Playwright adapter: responses delivered after `close()` are ignored instead of failing with a closed-writer error", "commit": "b4ddb09" },
         { "description": "TypeScript Playwright adapter: `NDJSONWriter.flush()` no longer hangs waiting for a `drain` event that never fires", "commit": "223a269" },
         { "description": "TypeScript Playwright adapter: `GzipNDJSONWriter.close()` waits for the file stream to close, so output is no longer truncated and an empty capture is a valid gzip file", "commit": "223a269" },
         { "description": "Python Playwright adapter: `exclude_path_patterns` now match anywhere in the request path (`re.search`), consistent with the TypeScript adapter; patterns such as `\\.js$` previously never matched", "commit": "12b611a" }
       ],
       "tests": [
         { "description": "Correct the Python Playwright adapter test mock so `Request.method` is a property, matching Playwright's API", "commit": "12b611a" }
+      ],
+      "documentation": [
+        { "description": "Playwright adapter docs and integration test: wait for in-flight responses (network idle) before closing the capture", "commit": "f0bdc39" }
       ],
       "build": [
         { "description": "Python Playwright adapter: pin the ruff rule set (E, F, I, W; line length 100) so lint results do not change with ruff's defaults, and clean up imports", "commit": "18b5d87" }
