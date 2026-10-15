@@ -197,7 +197,7 @@ class PlaywrightCapture:
 
         # Path pattern exclusion
         for pattern in self.options.exclude_path_patterns:
-            if pattern.match(url.path):
+            if pattern.search(url.path):
                 return False
 
         return True

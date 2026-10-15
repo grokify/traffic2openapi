@@ -31,13 +31,11 @@ class MockRequest:
         self._headers = headers or {}
         self._post_data = post_data
 
-    def url(self):
-        return self._url
-
     @property
     def url(self):
         return self._url
 
+    @property
     def method(self):
         return self._method
 
