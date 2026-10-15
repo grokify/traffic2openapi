@@ -1,6 +1,7 @@
 .DS_Store
 .env
 _*
+!__init__.py
 *.tar
 coverage.txt
 debug.test
