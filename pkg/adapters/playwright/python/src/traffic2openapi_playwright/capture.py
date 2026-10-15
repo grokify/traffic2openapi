@@ -130,6 +130,7 @@ class PlaywrightCapture:
 
         # Track pending requests (for timing)
         self._pending_requests: dict[str, tuple[PWRequest, float]] = {}
+        self._closed = False
 
     def attach(self, context: BrowserContext) -> None:
         """
@@ -158,6 +159,8 @@ class PlaywrightCapture:
 
     def _on_response(self, response: PWResponse) -> None:
         """Handle response event (sync)."""
+        if self._closed:
+            return
         try:
             record = self._create_record(response)
             if record:
@@ -168,6 +171,8 @@ class PlaywrightCapture:
 
     async def _on_response_async(self, response: PWResponse) -> None:
         """Handle response event (async)."""
+        if self._closed:
+            return
         try:
             record = await self._create_record_async(response)
             if record:
@@ -380,7 +385,13 @@ class PlaywrightCapture:
         self._writer.flush()
 
     def close(self) -> None:
-        """Close the capture and writer."""
+        """Close the capture and writer.
+
+        Responses delivered after close are ignored. Playwright delivers events
+        while your code is calling into the API, so wait for in-flight responses
+        (for example ``page.wait_for_load_state("networkidle")``) before closing.
+        """
+        self._closed = True
         self._writer.close()
 
     @property

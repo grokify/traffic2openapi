@@ -361,6 +361,18 @@ class TestPlaywrightCapture:
 
         capture.close()
 
+    def test_response_after_close_is_ignored(self, tmp_path: Path):
+        """Responses delivered after close must not raise or be reported as errors."""
+        errors = []
+        opts = CaptureOptions(output=str(tmp_path / "test.ndjson"), on_error=errors.append)
+        capture = PlaywrightCapture(opts)
+        capture.close()
+
+        capture._on_response(MockResponse(MockRequest()))
+
+        assert errors == []
+        assert capture.count == 0
+
     def test_count_property(self, tmp_path: Path):
         """Test count property."""
         output = tmp_path / "test.ndjson"

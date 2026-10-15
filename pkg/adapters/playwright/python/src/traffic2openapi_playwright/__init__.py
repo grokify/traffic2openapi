@@ -2,9 +2,9 @@
 traffic2openapi-playwright: Capture Playwright HTTP traffic for OpenAPI generation.
 """
 
-from .types import IRRecord, Request, Response, RequestMethod
-from .capture import PlaywrightCapture, CaptureOptions
-from .writer import NDJSONWriter, GzipNDJSONWriter
+from .capture import CaptureOptions, PlaywrightCapture
+from .types import IRRecord, Request, RequestMethod, Response
+from .writer import GzipNDJSONWriter, NDJSONWriter
 
 __version__ = "0.1.0"
 
