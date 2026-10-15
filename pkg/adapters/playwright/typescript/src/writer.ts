@@ -47,12 +47,9 @@ export class NDJSONWriter {
         resolve();
         return;
       }
-      this.stream.once('drain', resolve);
-      this.stream.once('error', reject);
-      // If buffer is not full, drain won't fire
-      if (this.stream.writableLength === 0) {
-        resolve();
-      }
+      // Writes are processed in order, so the callback of an empty write
+      // fires once every previously buffered chunk has been written.
+      this.stream.write('', (err) => (err ? reject(err) : resolve()));
     });
   }
 
@@ -121,7 +118,10 @@ export class GzipNDJSONWriter {
         resolve();
         return;
       }
-      this.gzip.flush(() => resolve());
+      this.gzip.flush(() => {
+        // Wait for the compressed bytes to reach the file as well.
+        this.fileStream.write(Buffer.alloc(0), (err) => (err ? reject(err) : resolve()));
+      });
     });
   }
 
@@ -135,11 +135,13 @@ export class GzipNDJSONWriter {
         return;
       }
       this._closed = true;
-      this.gzip.end(() => {
-        this.fileStream.end(() => resolve());
-      });
       this.gzip.once('error', reject);
       this.fileStream.once('error', reject);
+      // gzip is piped into the file stream, which ends automatically once
+      // gzip has emitted all compressed data. Resolve only after the file
+      // stream has closed, otherwise the output is truncated.
+      this.fileStream.once('close', () => resolve());
+      this.gzip.end();
     });
   }
 
