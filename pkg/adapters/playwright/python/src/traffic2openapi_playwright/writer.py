@@ -5,7 +5,7 @@ NDJSON writers for IR records.
 import gzip
 import threading
 from pathlib import Path
-from typing import IO, Optional, Union
+from typing import IO, Union
 
 from .types import IRRecord
 

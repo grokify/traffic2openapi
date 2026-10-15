@@ -4,12 +4,12 @@ IR (Intermediate Representation) types for traffic2openapi.
 These types match the JSON Schema at schemas/ir.v1.schema.json.
 """
 
-from dataclasses import dataclass, field, asdict
+import json
+import uuid
+from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
-import json
-import uuid
 
 
 class RequestMethod(str, Enum):

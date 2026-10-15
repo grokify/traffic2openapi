@@ -47,3 +47,11 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+# Explicit rule set so lint results do not change when ruff changes its defaults.
+select = ["E", "F", "I", "W"]

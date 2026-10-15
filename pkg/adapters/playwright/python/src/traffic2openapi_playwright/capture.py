@@ -6,17 +6,17 @@ import json
 import re
 import time
 from dataclasses import dataclass, field
-from datetime import datetime
 from pathlib import Path
 from typing import Callable, Optional, Union
 from urllib.parse import parse_qs, urlparse
 
-from playwright.sync_api import BrowserContext, Page, Request as PWRequest, Response as PWResponse
 from playwright.async_api import BrowserContext as AsyncBrowserContext
+from playwright.sync_api import BrowserContext
+from playwright.sync_api import Request as PWRequest
+from playwright.sync_api import Response as PWResponse
 
-from .types import IRRecord, Request, Response, RequestMethod
-from .writer import NDJSONWriter, GzipNDJSONWriter
-
+from .types import IRRecord, Request, RequestMethod, Response
+from .writer import GzipNDJSONWriter, NDJSONWriter
 
 # Default headers to exclude (security-sensitive)
 DEFAULT_EXCLUDE_HEADERS = frozenset([
