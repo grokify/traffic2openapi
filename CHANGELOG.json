@@ -6,6 +6,16 @@
   "commitConvention": "conventional",
   "releases": [
     {
+      "version": "v0.4.2",
+      "date": "2026-10-14",
+      "fixed": [
+        { "description": "Python Playwright adapter: `exclude_path_patterns` now match anywhere in the request path (`re.search`), consistent with the TypeScript adapter; patterns such as `\\.js$` previously never matched", "commit": "12b611a" }
+      ],
+      "tests": [
+        { "description": "Correct the Playwright adapter test mock so `Request.method` is a property, matching Playwright's API", "commit": "12b611a" }
+      ]
+    },
+    {
       "version": "v0.4.1",
       "date": "2026-10-14",
       "fixed": [
