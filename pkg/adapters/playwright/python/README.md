@@ -49,6 +49,8 @@ with sync_playwright() as p:
 
     page = context.new_page()
     page.goto("https://api.example.com/users")
+    # Let in-flight responses be delivered before closing the capture
+    page.wait_for_load_state("networkidle")
 
     # Stop and save
     capture.close()
@@ -74,6 +76,8 @@ async def main():
 
         page = await context.new_page()
         await page.goto("https://api.example.com/users")
+        # Let in-flight responses be delivered before closing the capture
+        await page.wait_for_load_state("networkidle")
 
         capture.close()
         await browser.close()
@@ -541,7 +545,10 @@ with GzipNDJSONWriter("output.ndjson.gz", level=9) as writer:
 ### File not created
 
 1. **Call close()** - Always call `capture.close()` or use context manager
-2. **Check file path** - Ensure the directory exists and is writable
+2. **Wait for responses before close()** - Playwright delivers events while your code
+   is calling into the API, so call `page.wait_for_load_state("networkidle")` (or close
+   the browser context) before `capture.close()`; responses that arrive after close are ignored
+3. **Check file path** - Ensure the directory exists and is writable
 
 ### Large output files
 

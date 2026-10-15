@@ -185,6 +185,7 @@ jobs:
 
               page = context.new_page()
               page.goto('https://httpbin.org/get')
+              page.wait_for_load_state('networkidle')
 
               capture.close()
               browser.close()

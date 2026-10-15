@@ -36,6 +36,8 @@ with sync_playwright() as p:
 
     page = context.new_page()
     page.goto("https://api.example.com")
+    # Let in-flight responses be delivered before closing the capture
+    page.wait_for_load_state("networkidle")
 
     # Stop and save
     capture.close()
