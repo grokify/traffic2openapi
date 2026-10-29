@@ -151,8 +151,8 @@ github.com/plexusone/omni-google v0.7.0 h1:RIYB80bHdW5z26+ncvNzHzhVADT4UyPKqeCYa
 github.com/plexusone/omni-google v0.7.0/go.mod h1:gsA32NcWqjQ4caUI71+TjkXwo1HZPkGti3T0g40ILk0=
 github.com/plexusone/omnistorage v0.3.0 h1:EDxBpuloeLIBpP/wrVuPYB7tYw7MIMRWXimZGnu3IGk=
 github.com/plexusone/omnistorage v0.3.0/go.mod h1:wauvKLdkLiCyaeTFq8I71TRXp0NLfdvneQwIXvuvvdE=
-github.com/plexusone/omnistorage-core v0.5.2 h1:vhascjTnSx3ITquf70d50o/B7cYeIUbJwUwzFVKqwB8=
-github.com/plexusone/omnistorage-core v0.5.2/go.mod h1:YGmwdm36lhgkl+NvQn89QDcteJiC3EGLoUcCO5ZUplg=
+github.com/plexusone/omnistorage-core v0.6.0 h1:6afcMOCllJ/7Bh9LB9y5EpClecbIohjERbTmJufR4k0=
+github.com/plexusone/omnistorage-core v0.6.0/go.mod h1:JIHiAp1NAeEWBv6DIdJ1PJSuYV9I2AjQl/2lmRgF9yU=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/rbretecher/go-postman-collection v0.9.0 h1:vXw6KBhASpz0L0igH3OsJCx5pjKbWXn9RiYMMnOO4QQ=
 github.com/rbretecher/go-postman-collection v0.9.0/go.mod h1:pptkyjdB/sqPycH+CCa1zrA6Wpj2Kc8Nz846qRstVVs=
