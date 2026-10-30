@@ -3,7 +3,7 @@ module github.com/grokify/traffic2openapi
 go 1.26.4
 
 require (
-	github.com/chromedp/cdproto v0.158.0
+	github.com/chromedp/cdproto v0.158.6
 	github.com/fsnotify/fsnotify v1.10.1
 	github.com/google/uuid v1.6.0
 	github.com/pb33f/libopenapi v0.41.6
